@@ -62,8 +62,41 @@ public:
     }
 
     void preorder(){
-        
+        //先序遍历
     }
-} 
+
+    void inorder(){
+        //中序遍历
+    }
+
+    void postorder(){
+        //后序遍历
+    }
+
+    T* search(const T& e) const{
+        return search(root, e);
+    }
+
+    void breadthFirst();
+    void iterativePreorder();
+    void iterativeInorder();
+    void iterativePostorder();
+    void MorrisInorder();
+    void insert(const T&);
+    void deleteByMerging(BSTNode<T>*&);
+    void findAndDeleteByMerging(const T&);
+    void deleteByCopying(BSTNode<T>*&);
+    void balance(T*, int, int);
+protected:
+    BSTNode<T>* root;
+    void clear(BSTNode<T>*);
+    T* search(BSTNode<T>*, const T&) const;
+    void preorder(BSTNode<T>*);
+    void inorder(BSTNode<T>*);
+    void postorder(BSTNode<T>*);
+    virtual void visit(BSTNode<T>* p){
+        cout << p->e << ' ';
+    }
+};
 
 #endif
