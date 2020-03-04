@@ -159,3 +159,98 @@ void BST<T>::insert(const T& e){
     else
         prev->right = new BSTNode<T>(e);
 }
+
+template<class T>
+void BST<T>::deleteByMerging(BSTNode<T>*& node){
+    // 合并删除法，可能导致树的高度增加
+    // *&表指针引用，为了可以改变指针的地址
+    BSTNode<T> *tmp = node;
+    if(node != 0){
+        if(node->right == 0)
+            node = node -> left; //如果没有右节点，那么直接替换为左节点
+        else if(node->left == 0)
+            node = node->right;  //如果没有左节点，那么直接替换为右节点
+        else{
+            // 既有左节点又有右节点
+            tmp = node -> left;
+            while(tmp->right != 0){
+                // 前往左子树的最右节点,即左边最大节点
+                tmp = tmp->right;
+            }
+            tmp->right = node->right;  //将原节点的右边转移给tmp
+            tmp = node;
+            node = node->left; //用原节点的左边替代原节点
+        }
+        delete tmp;
+    }
+}
+
+
+template<class T>
+void BST<T>::findAndDeleteByMerging(const T& e){
+    // 通过值查找的方式删除节点，调用了上面的函数
+    // 代码看似冗余，因为上面的search函数返回的是值(可是为什么不返回节点呢???)
+    BSTNode<T> *node = root, *prev = 0;
+    while(node!=0){
+        if(node->key == e) break;
+        prev = node;
+        if(node->key < e)
+            node = node->right;
+        else
+        {
+            node = node->left;
+        }
+    }
+    if(node != 0 && node->key == e){
+        if(node == root)
+            deleteByMerging(root);
+        else if(prev->left == node)
+            deleteByMerging(prev->left);  //为什么不直接传入node???
+        else
+        {
+            deleteByMerging(prev->right);
+        }
+    else if(root != 0)
+        cout << "key" << e << "is not found" << endl;
+    else cout << "the tree is empty" << endl;
+    }
+}
+
+template<class T>
+void BST<T>::deleteByCopying(BSTNode<T>*& node){
+    // 复制删除法，一般不会增加树的高度
+    BSTNode<T> *prev, *tmp = node;
+    if(node->right == 0)
+        node = node->left;
+    else if(node->left == 0)
+        node = node->right;
+    else{
+        tmp = node -> left;
+        prev = node;
+        while(tmp->right !=0 ){
+            prev = tmp;
+            tmp = tmp -> right;
+        }
+        node->e = tmp->e;  //直接进行值的替换
+        if(prev == node){
+            prev->left = tmp->left;  // 如果左子树最大节点为第一个节点(即没有右节点)，需要转移
+        }
+        else
+            prev->right = tmp->left; // 否则，也要对最大节点的左子树进行转移
+    }
+    delete tmp;  // 把左子树最大的节点删除
+}
+
+
+// 二叉树借助排序数组平衡
+// 算法存在缺陷: 必须将数据放在数组中，还需要排序
+template<class T>
+void BST<T>::balance(T data[], int first, int last){
+    if(first <= last){
+        int middle = (first + last) / 2;
+        insert(data[middle]);
+        balance(data, first, middle-1);
+        balance(data, middle+1, last);
+    }
+}
+

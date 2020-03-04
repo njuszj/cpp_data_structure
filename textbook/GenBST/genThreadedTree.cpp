@@ -18,3 +18,38 @@ void ThreadedTree<T>::inorder(){
     }
 }
 
+template<class T>
+void ThreadedTree<T>::insert(const T& e){
+    // 线索二叉树的插入操作
+    ThreadedNode<T> *e, *prev = 0, *newNode;
+    newNode = new ThreadedNode<T>(e);
+    if(root == 0){
+        root = newNode;
+        return;
+    }
+    p = root;
+    while(p != 0){
+        prev = p;
+        if(p->key > e)
+            p = p->left;
+        else if(p->successor == 0)
+            p = p->right; // p的后继节点是正常的后代
+        else baeak;
+    }
+    if(prev->key > e){
+        prev->left  = newNode;
+        newNode -> successor = 1;
+        newNode -> right = prev;
+    }
+    else if(prev->successor == 1){
+        newNode->successor = 1;
+        prev->successor = 0;
+        newNode->right = prev->right;
+        prev->right = newNode;
+    }
+    else
+    {
+        prev->right = newNode;
+    }
+}
+
