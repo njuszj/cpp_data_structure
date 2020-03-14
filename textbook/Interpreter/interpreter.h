@@ -12,7 +12,7 @@ using namespace std;
 
 class IdNode{
 public:
-    IdNode(char *s="", double e=0){
+    IdNode(const char *s="", double e=0){
         id = strdup(s);
         value = e;
     }
@@ -29,7 +29,7 @@ private:
 class Statement{
 public:
     Statement(){}
-    void getStatement();
+    double getStatement();
 private:
     list<IdNode> idList;
     char ch;
@@ -37,7 +37,7 @@ private:
     double term();
     double expression();
     void readId(char*);
-    void issueError(char *s){
+    void issueError(const char *s){
         cerr << s << endl;
         exit(1);
     }
