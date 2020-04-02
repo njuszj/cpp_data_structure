@@ -3,36 +3,38 @@
 // 失败，还是双指针吧
 # include <iostream>
 # include <vector>
+# include <algorithm>
+# include<numeric>
 
 using namespace std;
 
 class Solution {
 public:
     int threeSumClosest(vector<int>& nums, int target) {
-        vector<int>::iterator tail = nums.end() - 1, head=nums.begin();    
-        vector<int>::iterator mid;
-        int sum;
-        for(; head != nums.end()-2; head++){
-            sum = *head + *tail;
-            mid = closestHalfSearch(nums, head, tail, target-sum);
-        }
-    }
-    vector<int>::iterator closestHalfSearch(vector<int>& nums, vector<int>::iterator head, 
-            vector<int>::iterator tail, int target){
-        // 最接近的二分查找
-        vector<int>::iterator head = nums.begin(), tail = nums.end()-1,
-            mid = nums.begin() + static_cast<int>(nums.size()/2);
-        while(head != tail){
-            if(*mid == target) return mid;
-            else if(*mid > target)
-                tail = mid - 1;
-            else
-            {
-                head = mid + 1;
+        int sum, sub;
+        if(nums.size() < 3) return accumulate(nums.begin(), nums.end(), 0);
+        int res = accumulate(nums.begin(), nums.begin()+3, 0);
+        sort(nums.begin(), nums.end());
+        for(int i=0; i<nums.size()-2;i++){
+            int k = nums.size()-1, j=i+1;
+            while(k>j){
+                // cout << i << j << k << endl;
+                sum = nums[i]+nums[j]+nums[k];
+                if(sum == target) return sum;
+                else if(sum < target) j++;
+                else k--;
+                sub = abs(sum - target);
+                if(sub < abs(res-target))
+                    res = sum;
             }
-            int d = distance(head, tail);
-            mid = head + d / 2;
         }
-        return tail;
+        return res;
     }
 };
+
+int main(){
+    vector<int> nums = {1,2,3,4,5,6};
+    Solution s;
+    int a = s.threeSumClosest(nums, 99);
+    cout << a << endl;
+}
