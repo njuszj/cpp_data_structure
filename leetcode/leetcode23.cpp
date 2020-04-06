@@ -1,14 +1,8 @@
 // 合并k个有序链表
+// 通过,但是只击败了5%的选手,所以还要继续优化
+// 考虑优先队列和分治法
 
 # include "leetcode.h"
-# define NULL 0
-
-struct ListNode {
-    int val;
-    ListNode *next;
-    ListNode(int x) : val(x), next(NULL) {}
-};
-
 
 class Solution {
 public:
@@ -26,22 +20,37 @@ public:
                 }
                 elem = lists[i]->val;
                 if(elem <= min){
+                    cout << elem << " " << i << endl;
                     min = elem;
                     index = i;  // 保存下标 
                 }
             }
+            if(!flag) continue;
             lists[index] = lists[index]->next;
-            ListNode node(min);
+            ListNode* node = new ListNode(min);
             if(turn == 0){
-                head = &node;
-                prev = &node;
+                head = node;
+                prev = node;
             }
             else{
-                prev->next = &node;
-                prev = &node;
+                prev->next = node;
+                prev = node;
             }
             turn++;
         }
         return head;
     }
 };
+
+int main(){
+    Solution s;
+    vector<int> nums1 = {1,2,3,4,5,6};
+    vector<int> nums2 = {2,3,4,5,6};
+    ListNode* list1 = initList(nums1);
+    ListNode* list2 = initList(nums2);
+    vector<ListNode*> lists;
+    lists.push_back(list1);
+    lists.push_back(list2);
+    ListNode* node = s.mergeKLists(lists);
+    printList(node);
+}
