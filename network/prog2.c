@@ -2,11 +2,39 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* possible events: */
 
-/*
- * Student: ShenZhiJie
- * 
- */
+struct event
+{
+    float evtime;       /* event time */
+    int evtype;         /* event type code */
+    int eventity;       /* entity where event occurs */
+    struct pkt *pktptr; /* ptr to packet (if any) assoc w/ this event */
+    struct event *prev;
+    struct event *next;
+};
+struct event *evlist = NULL; /* the event list */
+
+#define TIMER_INTERRUPT 0
+#define FROM_LAYER5 1
+#define FROM_LAYER3 2
+
+#define OFF 0
+#define ON 1
+#define A 0
+#define B 1
+
+int TRACE = 1;   /* for my debugging */
+int nsim = 0;    /* number of messages from 5 to 4 so far */
+int nsimmax = 0; /* number of msgs to generate, then stop */
+float time = 0.000;
+float lossprob;    /* probability that a packet is dropped  */
+float corruptprob; /* probability that one bit is packet is flipped */
+float lambda;      /* arrival rate of messages from layer 5 */
+int ntolayer3;     /* number sent into layer 3 */
+int nlost;         /* number lost in media */
+int ncorrupt;      /* number corrupted by media*/
+
 
 /* ******************************************************************
  ALTERNATING BIT AND GO-BACK-N NETWORK EMULATOR: VERSION 1.1  J.F.Kurose
@@ -22,8 +50,7 @@
        (although some can be lost).
 **********************************************************************/
 
-#define BIDIRECTIONAL 0 /* change to 1 if you're doing extra credit */
-                        /* and write a routine called B_output */
+#define BIDIRECTIONAL 0 // change to 1 if you're doing extra credit and write a routine called B_output
 
 /* a "msg" is the data unit passed from layer 5 (teachers code) to layer  */
 /* 4 (students' code).  It(students' code).  It contains the data (characters) to be delivered */
@@ -36,13 +63,13 @@ struct msg
 /* a packet is the data unit passed from layer 4 (students code) to layer */
 /* 3 (teachers code).  Note the pre-defined packet structure, which all   */
 /* students must follow. */
-struct pkt
+typedef struct pkt
 {
     int seqnum;
     int acknum;
     int checksum;
     char payload[20];
-};
+} pkt;
 
 void starttimer(int AorB, float increment);
 void stoptimer(int AorB);
@@ -51,11 +78,89 @@ void tolayer5(int AorB, char datasent[20]);
 
 /********* STUDENTS WRITE THE NEXT SEVEN ROUTINES *********/
 
+#define WINDOWSIZE 10
+#define BUFFERSIZE 50
 
-/* called from layer 5, passed the data to be sent to other side */
+int A_base;      // 缓冲区底部指针
+int A_nextseq;   // 下一序号
+int A_seq;   // 序号
+int A_ack;   // 确认号
+int A_top;  // 缓冲区顶部指针， 指向要发送的内容
+float A_increment;  // A的计时器计时间隔
+pkt A_buffer[BUFFERSIZE];   // A的缓冲区, 是一个储存pkt的数组
+char ACK[20] = "ACK";
+char NAK[20] = "NAK";
+
+
+void GetCheckSum(pkt* packet){
+    // 计算校验和
+    packet->checksum = packet->seqnum + packet->acknum;
+    int i;
+    for(i=0; i<20; i+=4){
+        int tmp1 = (int)packet->payload[i];
+        int tmp2 = (int)packet->payload[i + 1];
+        int tmp3 = (int)packet->payload[i + 2];
+        int tmp4 = (int)packet->payload[i + 3];
+        tmp2 *= 256;
+        tmp3 *= 65536;
+        tmp4 *= 16777216;
+        packet->checksum += (tmp1 + tmp2 + tmp3 + tmp4);
+     }
+     packet->checksum = ~ packet->checksum;
+}
+
+int VerifyCheckSum(pkt* packet){
+    // 校验checksum
+    int check = packet->checksum;
+    check += (packet->seqnum + packet->acknum);
+    int i;
+    for(i = 0;i < 20;i += 4){
+        int tmp1 = (int)packet->payload[i];
+        int tmp2 = (int)packet->payload[i + 1];
+        int tmp3 = (int)packet->payload[i + 2];
+        int tmp4 = (int)packet->payload[i + 3];
+        tmp2 *= 256;
+        tmp3 *= 65536;
+        tmp4 *= 16777216;
+        check += (tmp1 + tmp2 + tmp3 + tmp4);
+    }
+    return check;
+}
+
+
+// 该函数被上层调用，向下层传递字符串消息
 void A_output(struct msg message)
 {
-    
+    if((A_base+WINDOWSIZE) % BUFFERSIZE == A_nextseq){
+        // 如果加上窗口值之后等于下一序号
+        if(A_top % BUFFERSIZE == A_base){
+            // 如果顶部指针与底部指针重合
+            printf("BUFFER OVERFLOW!");
+            return;
+        }
+        else{
+            strncpy(A_buffer[A_top].payload, message.data, 20);   // 向pkt中拷贝消息
+            A_top = (A_top + 1) % BUFFERSIZE;
+        }
+    }
+    else{
+        strncpy(A_buffer[A_nextseq].payload, message.data, 20);
+        A_buffer[A_nextseq].seqnum = A_seq + (A_nextseq - A_base);
+        A_buffer[A_nextseq].acknum = A_ack + (A_nextseq - A_base);
+        GetCheckSum(&A_buffer[A_nextseq]);    // 计算校验和
+        tolayer3(0,A_buffer[A_nextseq]);
+        if(A_nextseq == A_base) starttimer(0,A_increment);
+        {
+            // 打印日志
+            print("***************************************\n");
+            printf("A-> has sent: seq: %d,  ack: %d\n", A_buffer[A_nextseq].seqnum, A_buffer[A_nextseq].acknum);
+            printf("A-> checksum: %d", A_buffer[A_nextseq].checksum);
+            printf("A-> messages: %s", A_buffer[A_nextseq].payload);
+            print("***************************************\n");
+        }
+        A_nextseq = (A_nextseq + 1) % BUFFERSIZE;
+        A_top = (A_top + 1) % BUFFERSIZE;
+    }
 }
 
 /* need be completed only for extra credit */
@@ -64,14 +169,46 @@ void B_output(struct msg message)
     printf("  B_output: uni-directional. ignore.\n");
 }
 
-/* called from layer 3, when a packet arrives for layer 4 */
+// 下层调用， 向上层传递 layer3->layer5
 void A_input(struct pkt packet)
 {
+    if(A_ack != packet.seqnum){
+        printf("错误的确认号\n");
+        return;
+    }
+    if(VerifyCheckSum(&packet) == -1){
+        // 校验成功
+        stoptimer(0);
+        if(strcmp(packet.payload, ACK) == 0){
+            // 消息是ACK
+            A_seq++;
+            A_ack++;
+            A_base = (A_base + 1) % BUFFERSIZE;
+            if(A_top != A_nextseq){
+                // 如果顶部不是下一序号
+                A_buffer[A_nextseq].seqnum = A_seq + (A_nextseq - A_base);
+                A_buffer[A_nextseq].acknum = A_ack + (A_nextseq - A_base);
+                GetCheckSum(&A_buffer[A_nextseq]);
+                tolayer3(0, A_buffer[A_nextseq]);
+                A_nextseq = (A_nextseq + 1) % BUFFERSIZE;
+            }
+        }
+        else{
+            // 消息是NAK
+            tolayer3(0,A_buffer[A_base]);  // 重传
+            starttimer(0, A_increment);
+        }
+    }
+    else{
+        // 校验和出错
+        return;
+    }
 }
 
 /* called when A's timer goes off */
 void A_timerinterrupt(void)
 {
+    
 }
 
 /* the following routine will be called once (only) before any other */
@@ -103,52 +240,6 @@ void B_init(void)
 {
 }
 
-/*****************************************************************
-***************** NETWORK EMULATION CODE STARTS BELOW ***********
-The code below emulates the layer 3 and below network environment:
-    - emulates the tranmission and delivery (possibly with bit-level corruption
-        and packet loss) of packets across the layer 3/4 interface
-    - handles the starting/stopping of a timer, and generates timer
-        interrupts (resulting in calling students timer handler).
-    - generates message to be sent (passed from later 5 to 4)
-THERE IS NOT REASON THAT ANY STUDENT SHOULD HAVE TO READ OR UNDERSTAND
-THE CODE BELOW.  YOU SHOLD NOT TOUCH, OR REFERENCE (in your code) ANY
-OF THE DATA STRUCTURES BELOW.  If you're interested in how I designed
-the emulator, you're welcome to look at the code - but again, you should have
-to, and you defeinitely should not have to modify
-******************************************************************/
-
-struct event
-{
-    float evtime;       /* event time */
-    int evtype;         /* event type code */
-    int eventity;       /* entity where event occurs */
-    struct pkt *pktptr; /* ptr to packet (if any) assoc w/ this event */
-    struct event *prev;
-    struct event *next;
-};
-struct event *evlist = NULL; /* the event list */
-
-/* possible events: */
-#define TIMER_INTERRUPT 0
-#define FROM_LAYER5 1
-#define FROM_LAYER3 2
-
-#define OFF 0
-#define ON 1
-#define A 0
-#define B 1
-
-int TRACE = 1;   /* for my debugging */
-int nsim = 0;    /* number of messages from 5 to 4 so far */
-int nsimmax = 0; /* number of msgs to generate, then stop */
-float time = 0.000;
-float lossprob;    /* probability that a packet is dropped  */
-float corruptprob; /* probability that one bit is packet is flipped */
-float lambda;      /* arrival rate of messages from layer 5 */
-int ntolayer3;     /* number sent into layer 3 */
-int nlost;         /* number lost in media */
-int ncorrupt;      /* number corrupted by media*/
 
 void init(int argc, char **argv);
 void generate_next_arrival(void);
