@@ -55,10 +55,10 @@ int ncorrupt;      /* number corrupted by media*/
 /* a "msg" is the data unit passed from layer 5 (teachers code) to layer  */
 /* 4 (students' code).  It(students' code).  It contains the data (characters) to be delivered */
 /* to layer 5 via the students transport level protocol entities.         */
-struct msg
+typedef struct msg
 {
     char data[20];
-};
+} msg;
 
 /* a packet is the data unit passed from layer 4 (students code) to layer */
 /* 3 (teachers code).  Note the pre-defined packet structure, which all   */
@@ -208,24 +208,105 @@ void A_input(struct pkt packet)
 /* called when A's timer goes off */
 void A_timerinterrupt(void)
 {
-    
+    int i,j;
+    for(j = A_base;j < A_nextseq; j++){
+        tolayer3(0, A_buffer[j]);  // 重传
+        printf("A-> sending:\n");
+        printf("A-> seq:%d, ack:%d check:%X\n",A_buffer[j].seqnum,A_buffer[j].acknum,A_buffer[j].checksum);
+        printf("A-> message: %s", A_buffer[j].payload[i]);
+        printf("\n\n");
+    }
+    starttimer(0, A_increment);
 }
 
 /* the following routine will be called once (only) before any other */
 /* entity A routines are called. You can use it to do any initialization */
 void A_init(void)
 {
+    A_base = 0;
+    A_nextseq = 0;
+    A_top = 0;
+    srand(24);
+    A_seq = rand() % BUFFERSIZE;
+    A_ack = rand() % BUFFERSIZE;  
 }
 
 /* Note that with simplex transfer from a-to-B, there is no B_output() */
 
 void send_ack(int AorB, int ack)
 {
+    return;
 }
+
+
+pkt B_packet;                   /* packet buffer */
+int B_first_or_not;
+int B_seq_looking_for;
+int B_ack;
 
 /* called from layer 3, when a packet arrives for layer 4 at B*/
 void B_input(struct pkt packet)
 {
+    int i;
+
+    printf("B <- receiving:\n");
+    printf("B <- seq:%d, ack:%d check:%X\n",packet.seqnum,packet.acknum,packet.checksum);
+    printf("B <- message: %s", packet.payload[i]);
+    printf("\n\n");
+
+    if(VerifyCheckSum(&packet) == -1){ 
+        //校验和正确
+        if(B_first_or_not){
+            B_seq_looking_for = packet.seqnum;
+            B_ack = packet.acknum;
+            B_first_or_not = 0;
+        }
+        printf("receive:%d,looking for:%d\n",packet.seqnum,B_seq_looking_for);
+        if(packet.seqnum != B_seq_looking_for){
+            if(packet.seqnum > B_seq_looking_for){
+                tolayer3(1, B_packet);
+                /******************************/
+                printf("B <-  sending:\n");
+                printf("B <-  seq:%d, ack:%d check:%X\n",B_packet.seqnum,B_packet.acknum,B_packet.checksum);
+                printf("B <-  message: %s", B_packet.payload[i]);
+                printf("\n\n");
+                /******************************/
+            }
+            else{
+                pkt lost_or_corrputed_ACK;
+                lost_or_corrputed_ACK.seqnum = packet.acknum;
+                lost_or_corrputed_ACK.acknum = packet.seqnum + 1;
+                strncpy(lost_or_corrputed_ACK.payload,ACK,20);
+                ComputeCheckSum(&lost_or_corrputed_ACK);
+                tolayer3(1,lost_or_corrputed_ACK);
+                /******************************/
+                printf("B <- sending:\n");
+                printf("B <- seq:%d, ack:%d ",lost_or_corrputed_ACK.seqnum,lost_or_corrputed_ACK.acknum);
+                printf("B <- check:%X\n",lost_or_corrputed_ACK.checksum);
+                printf("B <-  message:%s", lost_or_corrputed_ACK.payload[i]);
+                printf("\n\n");
+                /******************************/
+            }
+        }
+        else{
+            B_packet.seqnum = B_ack++;
+            B_packet.acknum = ++B_seq_looking_for;               
+            strncpy(B_packet.payload,ACK,20);
+            msg receive;
+            strncpy(receive.data,packet.payload,20);
+            tolayer5(1, receive.data);
+        }       
+    }
+    else
+        strncpy(B_packet.payload,NAK,20);        
+    GetCheckSum(&B_packet);
+    /******************************/
+    printf("B <- sending:\n");
+    printf("B <- seq:%d, ack:%d check:%X\n",B_packet.seqnum,B_packet.acknum,B_packet.checksum);
+    printf("B <- message:%s", B_packet.payload[i]);
+    printf("\n\n");
+    /******************************/
+    tolayer3(1,B_packet);
 }
 
 /* called when B's timer goes off */
@@ -238,6 +319,10 @@ void B_timerinterrupt(void)
 /* entity B routines are called. You can use it to do any initialization */
 void B_init(void)
 {
+    B_first_or_not = 1;
+    B_packet.seqnum = -1;
+    B_packet.acknum = -1;
+    strncpy(B_packet.payload,NAK,20);
 }
 
 
