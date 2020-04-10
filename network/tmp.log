@@ -1,0 +1,670 @@
+-----  Stop and Wait Network Simulator Version 1.1 -------- 
+
+the number of messages to simulate: 2
+packet loss probability: 0.000000
+packet corruption probability: 0.000000
+average time between messages from sender's layer5: 1.000000
+TRACE: 2
+
+EVENT time: 1.870574,  type: 1, fromlayer5  entity: 0
+***************************************
+A-> has sent: seq: 23,  ack: 9
+A-> checksum: 2048465146A-> messages: aaaaaaaaaaaaaaaaaaa***************************************
+
+EVENT time: 2.366442,  type: 1, fromlayer5  entity: 0
+***************************************
+A-> has sent: seq: 24,  ack: 10
+A-> checksum: 1981027315A-> messages: bbbbbbbbbbbbbbbbbbb***************************************
+
+EVENT time: 2.870574,  type: 0, timerinterrupt   entity: 0
+A-> sending:
+A-> seq:23, ack:9 check:7A1918FA
+A-> message: aaaaaaaaaaaaaaaaaaa
+
+A-> sending:
+A-> seq:24, ack:10 check:761413F3
+A-> message: bbbbbbbbbbbbbbbbbbb
+
+
+EVENT time: 3.870574,  type: 0, timerinterrupt   entity: 0
+A-> sending:
+A-> seq:23, ack:9 check:7A1918FA
+A-> message: aaaaaaaaaaaaaaaaaaa
+
+A-> sending:
+A-> seq:24, ack:10 check:761413F3
+A-> message: bbbbbbbbbbbbbbbbbbb
+
+
+EVENT time: 4.870574,  type: 0, timerinterrupt   entity: 0
+A-> sending:
+A-> seq:23, ack:9 check:7A1918FA
+A-> message: aaaaaaaaaaaaaaaaaaa
+
+A-> sending:
+A-> seq:24, ack:10 check:761413F3
+A-> message: bbbbbbbbbbbbbbbbbbb
+
+
+EVENT time: 5.870574,  type: 0, timerinterrupt   entity: 0
+A-> sending:
+A-> seq:23, ack:9 check:7A1918FA
+A-> message: aaaaaaaaaaaaaaaaaaa
+
+A-> sending:
+A-> seq:24, ack:10 check:761413F3
+A-> message: bbbbbbbbbbbbbbbbbbb
+
+
+EVENT time: 6.870574,  type: 0, timerinterrupt   entity: 0
+A-> sending:
+A-> seq:23, ack:9 check:7A1918FA
+A-> message: aaaaaaaaaaaaaaaaaaa
+
+A-> sending:
+A-> seq:24, ack:10 check:761413F3
+A-> message: bbbbbbbbbbbbbbbbbbb
+
+
+EVENT time: 7.870574,  type: 0, timerinterrupt   entity: 0
+A-> sending:
+A-> seq:23, ack:9 check:7A1918FA
+A-> message: aaaaaaaaaaaaaaaaaaa
+
+A-> sending:
+A-> seq:24, ack:10 check:761413F3
+A-> message: bbbbbbbbbbbbbbbbbbb
+
+
+EVENT time: 8.870574,  type: 0, timerinterrupt   entity: 0
+A-> sending:
+A-> seq:23, ack:9 check:7A1918FA
+A-> message: aaaaaaaaaaaaaaaaaaa
+
+A-> sending:
+A-> seq:24, ack:10 check:761413F3
+A-> message: bbbbbbbbbbbbbbbbbbb
+
+
+EVENT time: 9.870574,  type: 0, timerinterrupt   entity: 0
+A-> sending:
+A-> seq:23, ack:9 check:7A1918FA
+A-> message: aaaaaaaaaaaaaaaaaaa
+
+A-> sending:
+A-> seq:24, ack:10 check:761413F3
+A-> message: bbbbbbbbbbbbbbbbbbb
+
+
+EVENT time: 10.870574,  type: 0, timerinterrupt   entity: 0
+A-> sending:
+A-> seq:23, ack:9 check:7A1918FA
+A-> message: aaaaaaaaaaaaaaaaaaa
+
+A-> sending:
+A-> seq:24, ack:10 check:761413F3
+A-> message: bbbbbbbbbbbbbbbbbbb
+
+
+EVENT time: 10.959867,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:23, ack:9 check:7A1918FA
+B <- message: aaaaaaaaaaaaaaaaaaa
+
+receive:23,looking for:23
+B <- sending:
+B <- seq:9, ack:24 check:FFB4BC9D
+B <- message:ACK
+
+
+EVENT time: 11.870574,  type: 0, timerinterrupt   entity: 0
+A-> sending:
+A-> seq:23, ack:9 check:7A1918FA
+A-> message: aaaaaaaaaaaaaaaaaaa
+
+A-> sending:
+A-> seq:24, ack:10 check:761413F3
+A-> message: bbbbbbbbbbbbbbbbbbb
+
+
+EVENT time: 12.493851,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:24, ack:10 check:761413F3
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:24,looking for:24
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 12.870574,  type: 0, timerinterrupt   entity: 0
+A-> sending:
+A-> seq:23, ack:9 check:7A1918FA
+A-> message: aaaaaaaaaaaaaaaaaaa
+
+A-> sending:
+A-> seq:24, ack:10 check:761413F3
+A-> message: bbbbbbbbbbbbbbbbbbb
+
+
+EVENT time: 13.870574,  type: 0, timerinterrupt   entity: 0
+A-> sending:
+A-> seq:23, ack:9 check:7A1918FA
+A-> message: aaaaaaaaaaaaaaaaaaa
+
+A-> sending:
+A-> seq:24, ack:10 check:761413F3
+A-> message: bbbbbbbbbbbbbbbbbbb
+
+
+EVENT time: 14.495278,  type: 2, fromlayer3  entity: 0
+
+EVENT time: 15.311974,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:23, ack:9 check:7A1918FA
+B <- message: aaaaaaaaaaaaaaaaaaa
+
+receive:23,looking for:25
+B <- sending:
+B <- seq:9, ack:24 B <- check:FFB4BC9D
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 19.802254,  type: 2, fromlayer3  entity: 0
+Warning: unable to cancel your timer. It wasn't running.
+
+EVENT time: 22.726732,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:24, ack:10 check:761413F3
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:24,looking for:25
+B <- sending:
+B <- seq:10, ack:25 B <- check:FFB4BC9B
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 28.216429,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 31.137581,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:23, ack:9 check:7A1918FA
+B <- message: aaaaaaaaaaaaaaaaaaa
+
+receive:23,looking for:25
+B <- sending:
+B <- seq:9, ack:24 B <- check:FFB4BC9D
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 31.680882,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 33.383022,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 35.223122,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:24, ack:10 check:761413F3
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:24,looking for:25
+B <- sending:
+B <- seq:10, ack:25 B <- check:FFB4BC9B
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 35.599556,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 39.092953,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:23, ack:9 check:7A1918FA
+B <- message: aaaaaaaaaaaaaaaaaaa
+
+receive:23,looking for:25
+B <- sending:
+B <- seq:9, ack:24 B <- check:FFB4BC9D
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 41.141174,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 45.636684,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 48.605755,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:24, ack:10 check:761413F3
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:24,looking for:25
+B <- sending:
+B <- seq:10, ack:25 B <- check:FFB4BC9B
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 51.129658,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 55.478630,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:23, ack:9 check:7A1918FA
+B <- message: aaaaaaaaaaaaaaaaaaa
+
+receive:23,looking for:25
+B <- sending:
+B <- seq:9, ack:24 B <- check:FFB4BC9D
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 58.074512,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 61.011208,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 63.140930,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:24, ack:10 check:761413F3
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:24,looking for:25
+B <- sending:
+B <- seq:10, ack:25 B <- check:FFB4BC9B
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 66.349533,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 67.802917,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:23, ack:9 check:7A1918FA
+B <- message: aaaaaaaaaaaaaaaaaaa
+
+receive:23,looking for:25
+B <- sending:
+B <- seq:9, ack:24 B <- check:FFB4BC9D
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 69.274117,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:24, ack:10 check:761413F3
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:24,looking for:25
+B <- sending:
+B <- seq:10, ack:25 B <- check:FFB4BC9B
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 71.012085,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 75.330612,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:23, ack:9 check:7A1918FA
+B <- message: aaaaaaaaaaaaaaaaaaa
+
+receive:23,looking for:25
+B <- sending:
+B <- seq:9, ack:24 B <- check:FFB4BC9D
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 77.794327,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 82.327599,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:24, ack:10 check:761413F3
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:24,looking for:25
+B <- sending:
+B <- seq:10, ack:25 B <- check:FFB4BC9B
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 84.817741,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:23, ack:9 check:7A1918FA
+B <- message: aaaaaaaaaaaaaaaaaaa
+
+receive:23,looking for:25
+B <- sending:
+B <- seq:9, ack:24 B <- check:FFB4BC9D
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 87.154030,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 88.208817,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:24, ack:10 check:761413F3
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:24,looking for:25
+B <- sending:
+B <- seq:10, ack:25 B <- check:FFB4BC9B
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 89.421150,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:23, ack:9 check:7A1918FA
+B <- message: aaaaaaaaaaaaaaaaaaa
+
+receive:23,looking for:25
+B <- sending:
+B <- seq:9, ack:24 B <- check:FFB4BC9D
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 94.210945,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 94.761383,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:24, ack:10 check:761413F3
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:24,looking for:25
+B <- sending:
+B <- seq:10, ack:25 B <- check:FFB4BC9B
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 101.274979,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:23, ack:9 check:7A1918FA
+B <- message: aaaaaaaaaaaaaaaaaaa
+
+receive:23,looking for:25
+B <- sending:
+B <- seq:9, ack:24 B <- check:FFB4BC9D
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 103.556030,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 105.183777,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:24, ack:10 check:761413F3
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:24,looking for:25
+B <- sending:
+B <- seq:10, ack:25 B <- check:FFB4BC9B
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 106.836723,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 110.697464,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 110.875595,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:23, ack:9 check:7A1918FA
+B <- message: aaaaaaaaaaaaaaaaaaa
+
+receive:23,looking for:25
+B <- sending:
+B <- seq:9, ack:24 B <- check:FFB4BC9D
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 114.272827,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 117.009491,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:24, ack:10 check:761413F3
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:24,looking for:25
+B <- sending:
+B <- seq:10, ack:25 B <- check:FFB4BC9B
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 119.088463,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 123.891579,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:23, ack:9 check:7A1918FA
+B <- message: aaaaaaaaaaaaaaaaaaa
+
+receive:23,looking for:25
+B <- sending:
+B <- seq:9, ack:24 B <- check:FFB4BC9D
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 126.091072,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:24, ack:10 check:761413F3
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:24,looking for:25
+B <- sending:
+B <- seq:10, ack:25 B <- check:FFB4BC9B
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 126.882355,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 134.332870,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:23, ack:9 check:7A1918FA
+B <- message: aaaaaaaaaaaaaaaaaaa
+
+receive:23,looking for:25
+B <- sending:
+B <- seq:9, ack:24 B <- check:FFB4BC9D
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 134.732727,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 136.231384,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 142.795166,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:24, ack:10 check:761413F3
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:24,looking for:25
+B <- sending:
+B <- seq:10, ack:25 B <- check:FFB4BC9B
+B <-  message:ACK
+
+B <- sending:
+B <- seq:10, ack:25 check:FFB4BC9B
+B <- message:ACK
+
+
+EVENT time: 145.878937,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 153.711411,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 163.456650,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 165.976379,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 174.439316,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 180.896271,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 187.597534,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 195.035202,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 202.163666,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 206.351517,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 207.431763,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 214.939575,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 221.626648,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 224.786301,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 234.207367,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 237.171646,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 244.905792,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 252.573166,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 259.675446,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 269.376831,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 272.623810,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 277.722565,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 281.036194,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 287.272888,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 294.421509,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 303.331665,  type: 2, fromlayer3  entity: 0
+错误的确认号
+ Simulator terminated at time 303.331665
+ after sending 2 msgs from layer5

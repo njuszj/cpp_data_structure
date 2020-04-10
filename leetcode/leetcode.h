@@ -33,6 +33,15 @@ void printList(ListNode* node){
     }
 }
 
+void printDoubleVector(vector<vector<int>> a){
+    for(int i=0; i<a.size(); i++){
+        for(int j=0; j<a[i].size(); j++){
+            cout << a[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
 template<class T>
 void printVector(vector<T> nums){
     for(T k : nums)

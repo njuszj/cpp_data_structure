@@ -86,7 +86,6 @@ int A_nextseq;   // 下一序号
 int A_seq;   // 序号
 int A_ack;   // 确认号
 int A_top;  // 缓冲区顶部指针， 指向要发送的内容
-float A_increment;  // A的计时器计时间隔
 pkt A_buffer[BUFFERSIZE];   // A的缓冲区, 是一个储存pkt的数组
 char ACK[20] = "ACK";
 char NAK[20] = "NAK";
@@ -149,14 +148,14 @@ void A_output(struct msg message)
         A_buffer[A_nextseq].acknum = A_ack + (A_nextseq - A_base);
         GetCheckSum(&A_buffer[A_nextseq]);    // 计算校验和
         tolayer3(0,A_buffer[A_nextseq]);
-        if(A_nextseq == A_base) starttimer(0,A_increment);
+        if(A_nextseq == A_base) starttimer(0,lambda);
         {
             // 打印日志
-            print("***************************************\n");
+            printf("***************************************\n");
             printf("A-> has sent: seq: %d,  ack: %d\n", A_buffer[A_nextseq].seqnum, A_buffer[A_nextseq].acknum);
             printf("A-> checksum: %d", A_buffer[A_nextseq].checksum);
-            printf("A-> messages: %s", A_buffer[A_nextseq].payload);
-            print("***************************************\n");
+            printf("A-> messages: %s\n", A_buffer[A_nextseq].payload);
+            printf("***************************************\n");
         }
         A_nextseq = (A_nextseq + 1) % BUFFERSIZE;
         A_top = (A_top + 1) % BUFFERSIZE;
@@ -194,9 +193,9 @@ void A_input(struct pkt packet)
             }
         }
         else{
-            // 消息是NAK
+            printf("消息没有收到应答，NAK");
             tolayer3(0,A_buffer[A_base]);  // 重传
-            starttimer(0, A_increment);
+            starttimer(0, lambda);
         }
     }
     else{
@@ -213,10 +212,10 @@ void A_timerinterrupt(void)
         tolayer3(0, A_buffer[j]);  // 重传
         printf("A-> sending:\n");
         printf("A-> seq:%d, ack:%d check:%X\n",A_buffer[j].seqnum,A_buffer[j].acknum,A_buffer[j].checksum);
-        printf("A-> message: %s", A_buffer[j].payload[i]);
+        printf("A-> message: %s", A_buffer[j].payload);
         printf("\n\n");
     }
-    starttimer(0, A_increment);
+    starttimer(0, lambda);
 }
 
 /* the following routine will be called once (only) before any other */
@@ -251,7 +250,7 @@ void B_input(struct pkt packet)
 
     printf("B <- receiving:\n");
     printf("B <- seq:%d, ack:%d check:%X\n",packet.seqnum,packet.acknum,packet.checksum);
-    printf("B <- message: %s", packet.payload[i]);
+    printf("B <- message: %s", packet.payload);
     printf("\n\n");
 
     if(VerifyCheckSum(&packet) == -1){ 
@@ -266,9 +265,9 @@ void B_input(struct pkt packet)
             if(packet.seqnum > B_seq_looking_for){
                 tolayer3(1, B_packet);
                 /******************************/
-                printf("B <-  sending:\n");
-                printf("B <-  seq:%d, ack:%d check:%X\n",B_packet.seqnum,B_packet.acknum,B_packet.checksum);
-                printf("B <-  message: %s", B_packet.payload[i]);
+                printf("B ->  sending:\n");
+                printf("B ->  seq:%d, ack:%d check:%X\n",B_packet.seqnum,B_packet.acknum,B_packet.checksum);
+                printf("B ->  message: %s", B_packet.payload);
                 printf("\n\n");
                 /******************************/
             }
@@ -277,13 +276,13 @@ void B_input(struct pkt packet)
                 lost_or_corrputed_ACK.seqnum = packet.acknum;
                 lost_or_corrputed_ACK.acknum = packet.seqnum + 1;
                 strncpy(lost_or_corrputed_ACK.payload,ACK,20);
-                ComputeCheckSum(&lost_or_corrputed_ACK);
+                GetCheckSum(&lost_or_corrputed_ACK);
                 tolayer3(1,lost_or_corrputed_ACK);
                 /******************************/
-                printf("B <- sending:\n");
-                printf("B <- seq:%d, ack:%d ",lost_or_corrputed_ACK.seqnum,lost_or_corrputed_ACK.acknum);
-                printf("B <- check:%X\n",lost_or_corrputed_ACK.checksum);
-                printf("B <-  message:%s", lost_or_corrputed_ACK.payload[i]);
+                printf("B -> sending:\n");
+                printf("B -> seq:%d, ack:%d ",lost_or_corrputed_ACK.seqnum,lost_or_corrputed_ACK.acknum);
+                printf("B -> check:%X\n",lost_or_corrputed_ACK.checksum);
+                printf("B ->  message:%s", lost_or_corrputed_ACK.payload);
                 printf("\n\n");
                 /******************************/
             }
@@ -301,9 +300,9 @@ void B_input(struct pkt packet)
         strncpy(B_packet.payload,NAK,20);        
     GetCheckSum(&B_packet);
     /******************************/
-    printf("B <- sending:\n");
-    printf("B <- seq:%d, ack:%d check:%X\n",B_packet.seqnum,B_packet.acknum,B_packet.checksum);
-    printf("B <- message:%s", B_packet.payload[i]);
+    printf("B -> sending:\n");
+    printf("B -> seq:%d, ack:%d check:%X\n",B_packet.seqnum,B_packet.acknum,B_packet.checksum);
+    printf("B -> message:%s", B_packet.payload);
     printf("\n\n");
     /******************************/
     tolayer3(1,B_packet);
