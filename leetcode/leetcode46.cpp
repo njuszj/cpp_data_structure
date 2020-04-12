@@ -42,10 +42,30 @@ public:
 
 class Solution {
 public:
+    vector<vector<int>> res;
+    int size;
     vector<vector<int>> permute(vector<int>& nums) {
         // 使用回溯解法，DFS+剪枝
-        vector<vector<int>> res;
+        this->size = nums.size();
+        vector<int> used(size, 0);
+        vector<int> trace;
+        dfs(trace, used, nums);
+        return res;
+    }
 
+    void dfs(vector<int> trace, vector<int> used, vector<int>& nums){
+        if(trace.size() == size){
+            res.push_back(trace);
+            return;
+        }
+        for(int i=0; i<nums.size(); i++){
+            if(used[i]) continue;
+            used[i] = 1;
+            trace.push_back(nums[i]);
+            dfs(trace, used, nums);
+            used[i] = 0; // 回溯
+            trace.pop_back(); // 回溯
+        }
     }
 
     vector<vector<int>> permuteRecursion(vector<int>& nums) {
@@ -73,7 +93,7 @@ public:
 };
 
 int main(){
-    vector<int> a = {1,2,3,4,5,6,7,8,9,0};
+    vector<int> a = {1,2,3};
     Solution s;
     vector<vector<int>> res = s.permute(a);
     printDoubleVector(res);
