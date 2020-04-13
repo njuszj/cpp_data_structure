@@ -1,3 +1,8 @@
+/*
+ * linux cp 功能
+*/
+
+
 # include "sys/types.h"
 # include <fcntl.h>
 # include <stdlib.h>

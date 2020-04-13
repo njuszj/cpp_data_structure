@@ -1,52 +1,45 @@
 // 全排列II
+// 画出示意图，思考剪枝条件
+
 # include "leetcode.h"
 
-/*
-
 class Solution {
-    //参考
-private:
-    vector<vector<int>> res;
-    vector<int> sol;
-    vector<int> nums;
 public:
+    vector<vector<int>> res;
+    int size = 0;
+
     vector<vector<int>> permuteUnique(vector<int>& nums) {
         sort(nums.begin(), nums.end());
-        this->nums = nums;
-        vector<bool> used(nums.size(), false);
-        dfs(used);
+        size = nums.size();
+        vector<int> used(size, 0);
+        vector<int> trace;
+        dfs(nums, trace, used);
         return res;
     }
-private:
-    void dfs(vector<bool> used){
-        if(sol.size() == nums.size()){
-            res.push_back(sol);
+
+    void dfs(vector<int>& nums, vector<int> trace, vector<int> used){
+        if(trace.size() == size){
+            res.push_back(trace);
             return;
         }
         for(int i=0; i<nums.size(); i++){
-            //当前值用过了 或 
-            //当前值等于前一个值： 两种情况：
-            //1 nums[i-1] 没用过 说明回溯到了同一层 此时接着用num[i] 则会与 同层用num[i-1] 重复
-            //2 nums[i-1] 用过了 说明此时在num[i-1]的下一层 相等不会重复
-            if(used[i] || (i>0 && !used[i-1] && nums[i] == nums[i-1])){//用过了
+            if(i>0 && nums[i] == nums[i-1] && used[i-1]==0){
+                // 剪枝
                 continue;
             }
-            sol.push_back(nums[i]);
-            used[i] = true;
-            dfs(used);
-            sol.pop_back();
-            used[i] = false;
+            if(used[i]) continue;
+            used[i]=1;
+            trace.push_back(nums[i]);
+            dfs(nums, trace, used);
+            used[i]=0;
+            trace.pop_back();
         }
     }
-
-*/ 
-
-
-class Solution {
-public:
-    vector<vector<int>> res;
-    int size=0;
-    vector<vector<int>> permuteUnique(vector<int>& nums) {
-        size = 
-    }
 };
+
+int main(){
+    Solution s;
+    vector<int> nums = {1,2,2,3,5,4};
+    vector<vector<int>> res = s.permuteUnique(nums);
+    printDoubleVector(res);
+}
