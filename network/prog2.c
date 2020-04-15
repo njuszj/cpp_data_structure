@@ -35,34 +35,14 @@ int ntolayer3;     /* number sent into layer 3 */
 int nlost;         /* number lost in media */
 int ncorrupt;      /* number corrupted by media*/
 
-
-/* ******************************************************************
- ALTERNATING BIT AND GO-BACK-N NETWORK EMULATOR: VERSION 1.1  J.F.Kurose
-   
-   This code should be used for PA2, unidirectional or bidirectional
-   data transfer protocols (from A to B. Bidirectional transfer of data
-   is for extra credit and is not required).  Network properties:
-   - one way network delay averages five time units (longer if there
-       are other messages in the channel for GBN), but can be larger
-   - packets can be corrupted (either the header or the data portion)
-       or lost, according to user-defined probabilities
-   - packets will be delivered in the order in which they were sent
-       (although some can be lost).
-**********************************************************************/
-
 #define BIDIRECTIONAL 0 // change to 1 if you're doing extra credit and write a routine called B_output
 
-/* a "msg" is the data unit passed from layer 5 (teachers code) to layer  */
-/* 4 (students' code).  It(students' code).  It contains the data (characters) to be delivered */
-/* to layer 5 via the students transport level protocol entities.         */
 typedef struct msg
 {
     char data[20];
 } msg;
 
-/* a packet is the data unit passed from layer 4 (students code) to layer */
-/* 3 (teachers code).  Note the pre-defined packet structure, which all   */
-/* students must follow. */
+
 typedef struct pkt
 {
     int seqnum;
@@ -81,11 +61,11 @@ void tolayer5(int AorB, char datasent[20]);
 #define WINDOWSIZE 10
 #define BUFFERSIZE 50
 
-int A_base;      // 缓冲区底部指针
+int A_base;      // 发送窗口尾部指针
 int A_nextseq;   // 下一序号
 int A_seq;   // 序号
 int A_ack;   // 确认号
-int A_top;  // 缓冲区顶部指针， 指向要发送的内容
+int A_top;  // 发送窗口头部指针
 pkt A_buffer[BUFFERSIZE];   // A的缓冲区, 是一个储存pkt的数组
 char ACK[20] = "ACK";
 char NAK[20] = "NAK";
@@ -128,10 +108,11 @@ int VerifyCheckSum(pkt* packet){
 
 
 // 该函数被上层调用，向下层传递字符串消息
-void A_output(struct msg message)
+void A_output(msg message)
 {
     if((A_base+WINDOWSIZE) % BUFFERSIZE == A_nextseq){
-        // 如果加上窗口值之后等于下一序号
+        // 如果加上窗口值之后等于下一期望的序号
+        // 即需要添加发送的pkt
         if(A_top % BUFFERSIZE == A_base){
             // 如果顶部指针与底部指针重合
             printf("BUFFER OVERFLOW!");
@@ -148,7 +129,7 @@ void A_output(struct msg message)
         A_buffer[A_nextseq].acknum = A_ack + (A_nextseq - A_base);
         GetCheckSum(&A_buffer[A_nextseq]);    // 计算校验和
         tolayer3(0,A_buffer[A_nextseq]);
-        if(A_nextseq == A_base) starttimer(0,lambda);
+        if(A_nextseq == A_base) starttimer(0,lambda);  // 窗口内的包已经发送完毕
         {
             // 打印日志
             printf("***************************************\n");
