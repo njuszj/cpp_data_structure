@@ -133,13 +133,13 @@ void A_output(msg message)
         {
             // 打印日志
             printf("***************************************\n");
-            printf("A-> has sent: seq: %d,  ack: %d\n", A_buffer[A_nextseq].seqnum, A_buffer[A_nextseq].acknum);
-            printf("A-> checksum: %d", A_buffer[A_nextseq].checksum);
+            printf("A-> has sent\n", A_buffer[A_nextseq].seqnum, A_buffer[A_nextseq].acknum);
+            printf("A-> seq: %d,  ack: %d,  checksum: %d \n", A_buffer[A_nextseq].checksum);
             printf("A-> messages: %s\n", A_buffer[A_nextseq].payload);
             printf("***************************************\n");
         }
-        A_nextseq = (A_nextseq + 1) % BUFFERSIZE;
-        A_top = (A_top + 1) % BUFFERSIZE;
+        A_nextseq = (A_nextseq + 1) % BUFFERSIZE;  // 发送序号+1
+        A_top = (A_top + 1) % BUFFERSIZE;   // 发送窗口+1
     }
 }
 
@@ -165,11 +165,12 @@ void A_input(struct pkt packet)
             A_ack++;
             A_base = (A_base + 1) % BUFFERSIZE;
             if(A_top != A_nextseq){
-                // 如果顶部不是下一序号
+                // 如果窗口头部不是下一序号
+                // 发送消息
                 A_buffer[A_nextseq].seqnum = A_seq + (A_nextseq - A_base);
                 A_buffer[A_nextseq].acknum = A_ack + (A_nextseq - A_base);
                 GetCheckSum(&A_buffer[A_nextseq]);
-                tolayer3(0, A_buffer[A_nextseq]);
+                tolayer3(0, A_buffer[A_nextseq]);  // 发送下一条消息
                 A_nextseq = (A_nextseq + 1) % BUFFERSIZE;
             }
         }
@@ -188,6 +189,7 @@ void A_input(struct pkt packet)
 /* called when A's timer goes off */
 void A_timerinterrupt(void)
 {
+    // 调用这个函数重传所有没被确认的序号，后退n步
     int i,j;
     for(j = A_base;j < A_nextseq; j++){
         tolayer3(0, A_buffer[j]);  // 重传
