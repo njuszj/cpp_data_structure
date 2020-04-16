@@ -58,14 +58,14 @@ void tolayer5(int AorB, char datasent[20]);
 
 /********* STUDENTS WRITE THE NEXT SEVEN ROUTINES *********/
 
-#define WINDOWSIZE 10
-#define BUFFERSIZE 50
+#define WINDOWSIZE 10    // 发送窗口长度
+#define BUFFERSIZE 500   // 缓冲区大小
 
 int A_base;      // 发送窗口尾部指针
-int A_nextseq;   // 下一序号
+int A_top;  // 发送窗口头部指针
+int A_nextseq;   // 要发送的序号
 int A_seq;   // 序号
 int A_ack;   // 确认号
-int A_top;  // 发送窗口头部指针
 pkt A_buffer[BUFFERSIZE];   // A的缓冲区, 是一个储存pkt的数组
 char ACK[20] = "ACK";
 char NAK[20] = "NAK";
@@ -73,6 +73,7 @@ char NAK[20] = "NAK";
 
 void GetCheckSum(pkt* packet){
     // 计算校验和
+    // 把每一部分都加起来(seq ack payload)
     packet->checksum = packet->seqnum + packet->acknum;
     int i;
     for(i=0; i<20; i+=4){
@@ -80,9 +81,9 @@ void GetCheckSum(pkt* packet){
         int tmp2 = (int)packet->payload[i + 1];
         int tmp3 = (int)packet->payload[i + 2];
         int tmp4 = (int)packet->payload[i + 3];
-        tmp2 *= 256;
-        tmp3 *= 65536;
-        tmp4 *= 16777216;
+        tmp2 << 8;  // 移位
+        tmp3 << 16;
+        tmp4 << 24;
         packet->checksum += (tmp1 + tmp2 + tmp3 + tmp4);
      }
      packet->checksum = ~ packet->checksum;
@@ -98,32 +99,20 @@ int VerifyCheckSum(pkt* packet){
         int tmp2 = (int)packet->payload[i + 1];
         int tmp3 = (int)packet->payload[i + 2];
         int tmp4 = (int)packet->payload[i + 3];
-        tmp2 *= 256;
-        tmp3 *= 65536;
-        tmp4 *= 16777216;
+        tmp2 << 8;
+        tmp3 << 16;
+        tmp4 << 24;
         check += (tmp1 + tmp2 + tmp3 + tmp4);
     }
-    return check;
+    return check;  // 如果没有差错应该得到-1(全1序列)
 }
 
 
 // 该函数被上层调用，向下层传递字符串消息
 void A_output(msg message)
 {
-    if((A_base+WINDOWSIZE) % BUFFERSIZE == A_nextseq){
-        // 如果加上窗口值之后等于下一期望的序号
-        // 即需要添加发送的pkt
-        if(A_top % BUFFERSIZE == A_base){
-            // 如果顶部指针与底部指针重合
-            printf("BUFFER OVERFLOW!");
-            return;
-        }
-        else{
-            strncpy(A_buffer[A_top].payload, message.data, 20);   // 向pkt中拷贝消息
-            A_top = (A_top + 1) % BUFFERSIZE;
-        }
-    }
-    else{
+    if(A_nextseq < (A_base+WINDOWSIZE)){
+        // 如果在窗口中
         strncpy(A_buffer[A_nextseq].payload, message.data, 20);
         A_buffer[A_nextseq].seqnum = A_seq + (A_nextseq - A_base);
         A_buffer[A_nextseq].acknum = A_ack + (A_nextseq - A_base);
@@ -133,13 +122,26 @@ void A_output(msg message)
         {
             // 打印日志
             printf("***************************************\n");
-            printf("A-> has sent\n", A_buffer[A_nextseq].seqnum, A_buffer[A_nextseq].acknum);
-            printf("A-> seq: %d,  ack: %d,  checksum: %d \n", A_buffer[A_nextseq].checksum);
+            printf("A-> has sent\n");
+            printf("A-> seq: %d,  ack: %d,  checksum: %d \n", A_buffer[A_nextseq].seqnum, A_buffer[A_nextseq].acknum, A_buffer[A_nextseq].checksum);
             printf("A-> messages: %s\n", A_buffer[A_nextseq].payload);
             printf("***************************************\n");
         }
         A_nextseq = (A_nextseq + 1) % BUFFERSIZE;  // 发送序号+1
         A_top = (A_top + 1) % BUFFERSIZE;   // 发送窗口+1
+    }
+    else{
+        // 如果加上窗口值之后等于下一期望的序号
+        // 即需要添加发送的pkt
+        if(A_top % BUFFERSIZE == A_base){
+            // 如果顶部指针与底部指针重合
+            printf("缓冲区已经满了!\n");
+            return;
+        }
+        else{
+            strncpy(A_buffer[A_top].payload, message.data, 20);   // 向pkt中拷贝消息
+            A_top = (A_top + 1) % BUFFERSIZE;  // 窗口数据填充
+        }
     }
 }
 
@@ -155,7 +157,7 @@ void A_input(struct pkt packet)
     if(A_ack != packet.seqnum){
         printf("错误的确认号\n");
         return;
-    }
+    }   
     if(VerifyCheckSum(&packet) == -1){
         // 校验成功
         stoptimer(0);
@@ -193,10 +195,15 @@ void A_timerinterrupt(void)
     int i,j;
     for(j = A_base;j < A_nextseq; j++){
         tolayer3(0, A_buffer[j]);  // 重传
-        printf("A-> sending:\n");
-        printf("A-> seq:%d, ack:%d check:%X\n",A_buffer[j].seqnum,A_buffer[j].acknum,A_buffer[j].checksum);
-        printf("A-> message: %s", A_buffer[j].payload);
-        printf("\n\n");
+        {
+            printf("***************************************\n");
+            printf("A-> sending:\n");
+            printf("A-> seq:%d, ack:%d check:%X\n",A_buffer[j].seqnum,A_buffer[j].acknum,A_buffer[j].checksum);
+            printf("A-> message: %s", A_buffer[j].payload);
+            printf("\n\n");
+            printf("***************************************\n");
+        }
+
     }
     starttimer(0, lambda);
 }
@@ -210,7 +217,7 @@ void A_init(void)
     A_top = 0;
     srand(24);
     A_seq = rand() % BUFFERSIZE;
-    A_ack = rand() % BUFFERSIZE;  
+    A_ack = rand() % BUFFERSIZE;
 }
 
 /* Note that with simplex transfer from a-to-B, there is no B_output() */
@@ -247,12 +254,14 @@ void B_input(struct pkt packet)
         if(packet.seqnum != B_seq_looking_for){
             if(packet.seqnum > B_seq_looking_for){
                 tolayer3(1, B_packet);
-                /******************************/
-                printf("B ->  sending:\n");
-                printf("B ->  seq:%d, ack:%d check:%X\n",B_packet.seqnum,B_packet.acknum,B_packet.checksum);
-                printf("B ->  message: %s", B_packet.payload);
-                printf("\n\n");
-                /******************************/
+                {
+                    printf("***************************************\n");
+                    printf("B ->  sending:\n");
+                    printf("B ->  seq:%d, ack:%d check:%X\n",B_packet.seqnum,B_packet.acknum,B_packet.checksum);
+                    printf("B ->  message: %s", B_packet.payload);
+                    printf("\n\n");
+                    printf("***************************************\n");
+                }
             }
             else{
                 pkt lost_or_corrputed_ACK;
