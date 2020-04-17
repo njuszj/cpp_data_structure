@@ -58,18 +58,31 @@ void tolayer5(int AorB, char datasent[20]);
 
 /********* STUDENTS WRITE THE NEXT SEVEN ROUTINES *********/
 
-#define WINDOWSIZE 10    // 发送窗口长度
-#define BUFFERSIZE 500   // 缓冲区大小
+#define WINDOW_SIZE 10    // 发送窗口长度
+#define BUFFER_SIZE 500   // 缓冲区大小
 
-int A_base;      // 发送窗口尾部指针
-int A_top;  // 发送窗口头部指针
+int A_tail;      // 发送窗口尾部指针
+int A_head;       // 发送窗口头部指针
 int A_nextseq;   // 要发送的序号
 int A_seq;   // 序号
 int A_ack;   // 确认号
-pkt A_buffer[BUFFERSIZE];   // A的缓冲区, 是一个储存pkt的数组
+pkt A_buffer_zone[BUFFER_SIZE];   // A的缓冲区, 是一个储存pkt的数组
 char ACK[20] = "ACK";
 char NAK[20] = "NAK";
 
+/* the following routine will be called once (only) before any other */
+/* entity A routines are called. You can use it to do any initialization */
+void A_init(void)
+{
+    A_tail = 0;
+    A_nextseq = 0;
+    A_head = 0;
+    srand(24);
+    A_seq = rand() % BUFFER_SIZE;
+    A_ack = rand() % BUFFER_SIZE;
+}
+
+/* Note that with simplex transfer from a-to-B, there is no B_output() */
 
 void GetCheckSum(pkt* packet){
     // 计算校验和
@@ -111,36 +124,36 @@ int VerifyCheckSum(pkt* packet){
 // 该函数被上层调用，向下层传递字符串消息
 void A_output(msg message)
 {
-    if(A_nextseq < (A_base+WINDOWSIZE)){
+    if(A_nextseq < (A_tail+WINDOW_SIZE)){
         // 如果在窗口中
-        strncpy(A_buffer[A_nextseq].payload, message.data, 20);
-        A_buffer[A_nextseq].seqnum = A_seq + (A_nextseq - A_base);
-        A_buffer[A_nextseq].acknum = A_ack + (A_nextseq - A_base);
-        GetCheckSum(&A_buffer[A_nextseq]);    // 计算校验和
-        tolayer3(0,A_buffer[A_nextseq]);
-        if(A_nextseq == A_base) starttimer(0,lambda);  // 窗口内的包已经发送完毕
+        strncpy(A_buffer_zone[A_nextseq].payload, message.data, 20);
+        A_buffer_zone[A_nextseq].seqnum = A_seq + (A_nextseq - A_tail);
+        A_buffer_zone[A_nextseq].acknum = A_ack + (A_nextseq - A_tail);
+        GetCheckSum(&A_buffer_zone[A_nextseq]);    // 计算校验和
+        tolayer3(0,A_buffer_zone[A_nextseq]);
+        if(A_nextseq == A_tail) starttimer(0,lambda);  // 窗口内的包已经发送完毕
         {
             // 打印日志
             printf("***************************************\n");
             printf("A-> has sent\n");
-            printf("A-> seq: %d,  ack: %d,  checksum: %d \n", A_buffer[A_nextseq].seqnum, A_buffer[A_nextseq].acknum, A_buffer[A_nextseq].checksum);
-            printf("A-> messages: %s\n", A_buffer[A_nextseq].payload);
+            printf("A-> seq: %d,  ack: %d,  checksum: %d \n", A_buffer_zone[A_nextseq].seqnum, A_buffer_zone[A_nextseq].acknum, A_buffer_zone[A_nextseq].checksum);
+            printf("A-> messages: %s\n", A_buffer_zone[A_nextseq].payload);
             printf("***************************************\n");
         }
-        A_nextseq = (A_nextseq + 1) % BUFFERSIZE;  // 发送序号+1
-        A_top = (A_top + 1) % BUFFERSIZE;   // 发送窗口+1
+        A_nextseq = (A_nextseq + 1) % BUFFER_SIZE;  // 发送序号+1
+        A_head = (A_head + 1) % BUFFER_SIZE;   // 发送窗口+1
     }
     else{
         // 如果加上窗口值之后等于下一期望的序号
         // 即需要添加发送的pkt
-        if(A_top % BUFFERSIZE == A_base){
+        if(A_head % BUFFER_SIZE == A_tail){
             // 如果顶部指针与底部指针重合
             printf("缓冲区已经满了!\n");
             return;
         }
         else{
-            strncpy(A_buffer[A_top].payload, message.data, 20);   // 向pkt中拷贝消息
-            A_top = (A_top + 1) % BUFFERSIZE;  // 窗口数据填充
+            strncpy(A_buffer_zone[A_head].payload, message.data, 20);   // 向pkt中拷贝消息
+            A_head = (A_head + 1) % BUFFER_SIZE;  // 窗口数据填充
         }
     }
 }
@@ -165,25 +178,26 @@ void A_input(struct pkt packet)
             // 消息是ACK
             A_seq++;
             A_ack++;
-            A_base = (A_base + 1) % BUFFERSIZE;
-            if(A_top != A_nextseq){
+            A_tail = (A_tail + 1) % BUFFER_SIZE;
+            if(A_head != A_nextseq){
                 // 如果窗口头部不是下一序号
                 // 发送消息
-                A_buffer[A_nextseq].seqnum = A_seq + (A_nextseq - A_base);
-                A_buffer[A_nextseq].acknum = A_ack + (A_nextseq - A_base);
-                GetCheckSum(&A_buffer[A_nextseq]);
-                tolayer3(0, A_buffer[A_nextseq]);  // 发送下一条消息
-                A_nextseq = (A_nextseq + 1) % BUFFERSIZE;
+                A_buffer_zone[A_nextseq].seqnum = A_seq + (A_nextseq - A_tail);
+                A_buffer_zone[A_nextseq].acknum = A_ack + (A_nextseq - A_tail);
+                GetCheckSum(&A_buffer_zone[A_nextseq]);
+                tolayer3(0, A_buffer_zone[A_nextseq]);  // 发送下一条消息
+                A_nextseq = (A_nextseq + 1) % BUFFER_SIZE;
             }
         }
         else{
             printf("消息没有收到应答，NAK");
-            tolayer3(0,A_buffer[A_base]);  // 重传
+            tolayer3(0,A_buffer_zone[A_tail]);  // 重传
             starttimer(0, lambda);
         }
     }
     else{
         // 校验和出错
+        printf("错误的校验号");
         return;
     }
 }
@@ -193,34 +207,20 @@ void A_timerinterrupt(void)
 {
     // 调用这个函数重传所有没被确认的序号，后退n步
     int i,j;
-    for(j = A_base;j < A_nextseq; j++){
-        tolayer3(0, A_buffer[j]);  // 重传
+    for(j = A_tail;j < A_nextseq; j++){
+        tolayer3(0, A_buffer_zone[j]);  // 重传
         {
             printf("***************************************\n");
             printf("A-> sending:\n");
-            printf("A-> seq:%d, ack:%d check:%X\n",A_buffer[j].seqnum,A_buffer[j].acknum,A_buffer[j].checksum);
-            printf("A-> message: %s", A_buffer[j].payload);
+            printf("A-> seq:%d, ack:%d, check:%X\n",A_buffer_zone[j].seqnum,A_buffer_zone[j].acknum,A_buffer_zone[j].checksum);
+            printf("A-> message: %s", A_buffer_zone[j].payload);
             printf("\n\n");
             printf("***************************************\n");
         }
 
     }
     starttimer(0, lambda);
-}
-
-/* the following routine will be called once (only) before any other */
-/* entity A routines are called. You can use it to do any initialization */
-void A_init(void)
-{
-    A_base = 0;
-    A_nextseq = 0;
-    A_top = 0;
-    srand(24);
-    A_seq = rand() % BUFFERSIZE;
-    A_ack = rand() % BUFFERSIZE;
-}
-
-/* Note that with simplex transfer from a-to-B, there is no B_output() */
+}   
 
 void send_ack(int AorB, int ack)
 {
@@ -232,6 +232,16 @@ pkt B_packet;                   /* packet buffer */
 int B_first_or_not;
 int B_seq_looking_for;
 int B_ack;
+
+/* the following rouytine will be called once (only) before any other */
+/* entity B routines are called. You can use it to do any initialization */
+void B_init(void)
+{
+    B_first_or_not = 1;
+    B_packet.seqnum = -1;
+    B_packet.acknum = -1;
+    strncpy(B_packet.payload,NAK,20);
+}
 
 /* called from layer 3, when a packet arrives for layer 4 at B*/
 void B_input(struct pkt packet)
@@ -251,10 +261,21 @@ void B_input(struct pkt packet)
             B_first_or_not = 0;
         }
         printf("receive:%d,looking for:%d\n",packet.seqnum,B_seq_looking_for);
-        if(packet.seqnum != B_seq_looking_for){
+        if(packet.seqnum == B_seq_looking_for){
+            // 向上层交付
+            B_packet.seqnum = B_ack++;
+            B_packet.acknum = ++B_seq_looking_for;               
+            strncpy(B_packet.payload,ACK,20);
+            msg receive;
+            strncpy(receive.data,packet.payload,20);
+            tolayer5(1, receive.data);
+        }
+        else{
             if(packet.seqnum > B_seq_looking_for){
+                // 向A发送确认
                 tolayer3(1, B_packet);
                 {
+                    // 打印日志
                     printf("***************************************\n");
                     printf("B ->  sending:\n");
                     printf("B ->  seq:%d, ack:%d check:%X\n",B_packet.seqnum,B_packet.acknum,B_packet.checksum);
@@ -269,34 +290,30 @@ void B_input(struct pkt packet)
                 lost_or_corrputed_ACK.acknum = packet.seqnum + 1;
                 strncpy(lost_or_corrputed_ACK.payload,ACK,20);
                 GetCheckSum(&lost_or_corrputed_ACK);
-                tolayer3(1,lost_or_corrputed_ACK);
-                /******************************/
-                printf("B -> sending:\n");
-                printf("B -> seq:%d, ack:%d ",lost_or_corrputed_ACK.seqnum,lost_or_corrputed_ACK.acknum);
-                printf("B -> check:%X\n",lost_or_corrputed_ACK.checksum);
-                printf("B ->  message:%s", lost_or_corrputed_ACK.payload);
-                printf("\n\n");
-                /******************************/
+                tolayer3(1,lost_or_corrputed_ACK);   // 发送反馈
+                {
+                    printf("***************************************\n");
+                    printf("B -> sending:\n");
+                    printf("B -> seq:%d, ack:%d ",lost_or_corrputed_ACK.seqnum,lost_or_corrputed_ACK.acknum);
+                    printf("B -> check:%X\n",lost_or_corrputed_ACK.checksum);
+                    printf("B ->  message:%s", lost_or_corrputed_ACK.payload);
+                    printf("\n\n");
+                    printf("***************************************\n");
+                }
             }
-        }
-        else{
-            B_packet.seqnum = B_ack++;
-            B_packet.acknum = ++B_seq_looking_for;               
-            strncpy(B_packet.payload,ACK,20);
-            msg receive;
-            strncpy(receive.data,packet.payload,20);
-            tolayer5(1, receive.data);
         }       
     }
     else
         strncpy(B_packet.payload,NAK,20);        
     GetCheckSum(&B_packet);
-    /******************************/
-    printf("B -> sending:\n");
-    printf("B -> seq:%d, ack:%d check:%X\n",B_packet.seqnum,B_packet.acknum,B_packet.checksum);
-    printf("B -> message:%s", B_packet.payload);
-    printf("\n\n");
-    /******************************/
+    {
+        printf("***************************************\n");
+        printf("B -> sending:\n");
+        printf("B -> seq:%d, ack:%d check:%X\n",B_packet.seqnum,B_packet.acknum,B_packet.checksum);
+        printf("B -> message:%s", B_packet.payload);
+        printf("\n\n");
+        printf("***************************************\n");
+    }
     tolayer3(1,B_packet);
 }
 
@@ -304,16 +321,6 @@ void B_input(struct pkt packet)
 void B_timerinterrupt(void)
 {
     printf("  B_timerinterrupt: B doesn't have a timer. ignore.\n");
-}
-
-/* the following rouytine will be called once (only) before any other */
-/* entity B routines are called. You can use it to do any initialization */
-void B_init(void)
-{
-    B_first_or_not = 1;
-    B_packet.seqnum = -1;
-    B_packet.acknum = -1;
-    strncpy(B_packet.payload,NAK,20);
 }
 
 

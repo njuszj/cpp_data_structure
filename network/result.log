@@ -1,0 +1,894 @@
+-----  Stop and Wait Network Simulator Version 1.1 -------- 
+
+the number of messages to simulate: 15
+packet loss probability: 0.200000
+packet corruption probability: 0.200000
+average time between messages from sender's layer5: 1000.000000
+TRACE: 2
+
+EVENT time: 1870.573975,  type: 1, fromlayer5  entity: 0
+***************************************
+A-> has sent
+A-> seq: 373,  ack: 259,  checksum: -2476 
+A-> messages: aaaaaaaaaaaaaaaaaaa
+***************************************
+
+EVENT time: 1879.663208,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:373, ack:259 check:FFFFF654
+B <- message: aaaaaaaaaaaaaaaaaaa
+
+receive:373,looking for:373
+***************************************
+B -> sending:
+B -> seq:259, ack:374 check:FFFFFCB7
+B -> message:ACK
+
+***************************************
+
+EVENT time: 1881.197144,  type: 2, fromlayer3  entity: 0
+
+EVENT time: 2366.442139,  type: 1, fromlayer5  entity: 0
+          TOLAYER3: packet being corrupted
+***************************************
+A-> has sent
+A-> seq: 374,  ack: 260,  checksum: -2497 
+A-> messages: bbbbbbbbbbbbbbbbbbb
+***************************************
+
+EVENT time: 2375.173096,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:374, ack:260 check:FFFFF63F
+B <- message: Zbbbbbbbbbbbbbbbbbb
+
+***************************************
+B -> sending:
+B -> seq:259, ack:374 check:FFFFFCAC
+B -> message:NAK
+
+***************************************
+
+EVENT time: 2380.666260,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 3366.442139,  type: 0, timerinterrupt   entity: 0
+***************************************
+A-> sending:
+A-> seq:374, ack:260, check:FFFFF63F
+A-> message: bbbbbbbbbbbbbbbbbbb
+
+***************************************
+
+EVENT time: 3368.343018,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:374, ack:260 check:FFFFF63F
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:374,looking for:374
+***************************************
+B -> sending:
+B -> seq:260, ack:375 check:FFFFFCB5
+B -> message:ACK
+
+***************************************
+          TOLAYER3: packet being lost
+
+EVENT time: 3385.396973,  type: 1, fromlayer5  entity: 0
+***************************************
+A-> has sent
+A-> seq: 375,  ack: 261,  checksum: -2518 
+A-> messages: ccccccccccccccccccc
+***************************************
+
+EVENT time: 3389.575195,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:375, ack:261 check:FFFFF62A
+B <- message: ccccccccccccccccccc
+
+receive:375,looking for:375
+***************************************
+B -> sending:
+B -> seq:261, ack:376 check:FFFFFCB3
+B -> message:ACK
+
+***************************************
+          TOLAYER3: packet being corrupted
+
+EVENT time: 3399.306641,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 4366.442383,  type: 0, timerinterrupt   entity: 0
+***************************************
+A-> sending:
+A-> seq:374, ack:260, check:FFFFF63F
+A-> message: bbbbbbbbbbbbbbbbbbb
+
+***************************************
+***************************************
+A-> sending:
+A-> seq:375, ack:261, check:FFFFF62A
+A-> message: ccccccccccccccccccc
+
+***************************************
+
+EVENT time: 4373.837402,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:374, ack:260 check:FFFFF63F
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:374,looking for:376
+          TOLAYER3: packet being corrupted
+***************************************
+B -> sending:
+B -> seq:260, ack:375 B -> check:FFFFFCB5
+B ->  message:ACK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:261, ack:376 check:FFFFFCB3
+B -> message:ACK
+
+***************************************
+          TOLAYER3: packet being lost
+
+EVENT time: 4376.993652,  type: 2, fromlayer3  entity: 0
+
+EVENT time: 4383.463867,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:375, ack:261 check:FFFFF62A
+B <- message: ccccccccccccccccccc
+
+receive:375,looking for:376
+***************************************
+B -> sending:
+B -> seq:261, ack:376 B -> check:FFFFFCB3
+B ->  message:ACK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:261, ack:376 check:FFFFFCB3
+B -> message:ACK
+
+***************************************
+          TOLAYER3: packet being corrupted
+
+EVENT time: 4389.092773,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 4392.136230,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 4901.232910,  type: 1, fromlayer5  entity: 0
+***************************************
+A-> has sent
+A-> seq: 376,  ack: 262,  checksum: -2539 
+A-> messages: ddddddddddddddddddd
+***************************************
+
+EVENT time: 4904.624023,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:376, ack:262 check:FFFFF615
+B <- message: ddddddddddddddddddd
+
+receive:376,looking for:376
+***************************************
+B -> sending:
+B -> seq:262, ack:377 check:FFFFFCB1
+B -> message:ACK
+
+***************************************
+
+EVENT time: 4905.836426,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 5002.214844,  type: 1, fromlayer5  entity: 0
+***************************************
+A-> has sent
+A-> seq: 377,  ack: 263,  checksum: -2560 
+A-> messages: eeeeeeeeeeeeeeeeeee
+***************************************
+
+EVENT time: 5009.137207,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:377, ack:263 check:FFFFF600
+B <- message: eeeeeeeeeeeeeeeeeee
+
+receive:377,looking for:377
+***************************************
+B -> sending:
+B -> seq:263, ack:378 check:FFFFFCAF
+B -> message:ACK
+
+***************************************
+
+EVENT time: 5012.932617,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 5051.213379,  type: 1, fromlayer5  entity: 0
+          TOLAYER3: packet being lost
+***************************************
+A-> has sent
+A-> seq: 378,  ack: 264,  checksum: -2581 
+A-> messages: fffffffffffffffffff
+***************************************
+
+EVENT time: 5366.442383,  type: 0, timerinterrupt   entity: 0
+***************************************
+A-> sending:
+A-> seq:374, ack:260, check:FFFFF63F
+A-> message: bbbbbbbbbbbbbbbbbbb
+
+***************************************
+          TOLAYER3: packet being lost
+***************************************
+A-> sending:
+A-> seq:375, ack:261, check:FFFFF62A
+A-> message: ccccccccccccccccccc
+
+***************************************
+***************************************
+A-> sending:
+A-> seq:376, ack:262, check:FFFFF615
+A-> message: ddddddddddddddddddd
+
+***************************************
+***************************************
+A-> sending:
+A-> seq:377, ack:263, check:FFFFF600
+A-> message: eeeeeeeeeeeeeeeeeee
+
+***************************************
+          TOLAYER3: packet being corrupted
+***************************************
+A-> sending:
+A-> seq:378, ack:264, check:FFFFF5EB
+A-> message: fffffffffffffffffff
+
+***************************************
+
+EVENT time: 5369.978027,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:374, ack:260 check:FFFFF63F
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:374,looking for:378
+          TOLAYER3: packet being corrupted
+***************************************
+B -> sending:
+B -> seq:260, ack:375 B -> check:FFFFFCB5
+B ->  message:ACK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:263, ack:378 check:FFFFFCAF
+B -> message:ACK
+
+***************************************
+          TOLAYER3: packet being corrupted
+
+EVENT time: 5372.429688,  type: 2, fromlayer3  entity: 0
+
+EVENT time: 5375.568848,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:376, ack:262 check:FFFFF615
+B <- message: ddddddddddddddddddd
+
+receive:376,looking for:378
+***************************************
+B -> sending:
+B -> seq:262, ack:377 B -> check:FFFFFCB1
+B ->  message:ACK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:263, ack:378 check:FFFFFCAF
+B -> message:ACK
+
+***************************************
+
+EVENT time: 5377.216309,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:377, ack:263 check:FFFFF600
+B <- message: eeeeeeeeeeeeeeeeeee
+
+receive:377,looking for:378
+***************************************
+B -> sending:
+B -> seq:263, ack:378 B -> check:FFFFFCAF
+B ->  message:ACK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:263, ack:378 check:FFFFFCAF
+B -> message:ACK
+
+***************************************
+          TOLAYER3: packet being lost
+
+EVENT time: 5380.671387,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 5384.860840,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:378, ack:264 check:FFFFF5EB
+B <- message: Zffffffffffffffffff
+
+***************************************
+B -> sending:
+B -> seq:263, ack:378 check:FFFFFCA4
+B -> message:NAK
+
+***************************************
+          TOLAYER3: packet being corrupted
+
+EVENT time: 5387.749512,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 5391.341309,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 5397.841797,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 5405.539062,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 5697.612793,  type: 1, fromlayer5  entity: 0
+***************************************
+A-> has sent
+A-> seq: 379,  ack: 265,  checksum: -2602 
+A-> messages: ggggggggggggggggggg
+***************************************
+
+EVENT time: 5707.474609,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:379, ack:265 check:FFFFF5D6
+B <- message: ggggggggggggggggggg
+
+receive:379,looking for:378
+          TOLAYER3: packet being corrupted
+***************************************
+B ->  sending:
+B ->  seq:263, ack:378 check:FFFFFCA4
+B ->  message: NAK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:263, ack:378 check:FFFFFCA4
+B -> message:NAK
+
+***************************************
+          TOLAYER3: packet being lost
+
+EVENT time: 5712.643555,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 6206.094238,  type: 1, fromlayer5  entity: 0
+          TOLAYER3: packet being corrupted
+***************************************
+A-> has sent
+A-> seq: 380,  ack: 266,  checksum: -2623 
+A-> messages: hhhhhhhhhhhhhhhhhhh
+***************************************
+
+EVENT time: 6209.344727,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:380, ack:266 check:FFFFF5C1
+B <- message: Zhhhhhhhhhhhhhhhhhh
+
+***************************************
+B -> sending:
+B -> seq:263, ack:378 check:FFFFFCA4
+B -> message:NAK
+
+***************************************
+          TOLAYER3: packet being lost
+
+EVENT time: 6366.442383,  type: 0, timerinterrupt   entity: 0
+***************************************
+A-> sending:
+A-> seq:374, ack:260, check:FFFFF63F
+A-> message: bbbbbbbbbbbbbbbbbbb
+
+***************************************
+          TOLAYER3: packet being lost
+***************************************
+A-> sending:
+A-> seq:375, ack:261, check:FFFFF62A
+A-> message: ccccccccccccccccccc
+
+***************************************
+***************************************
+A-> sending:
+A-> seq:376, ack:262, check:FFFFF615
+A-> message: ddddddddddddddddddd
+
+***************************************
+***************************************
+A-> sending:
+A-> seq:377, ack:263, check:FFFFF600
+A-> message: eeeeeeeeeeeeeeeeeee
+
+***************************************
+***************************************
+A-> sending:
+A-> seq:378, ack:264, check:FFFFF5EB
+A-> message: fffffffffffffffffff
+
+***************************************
+***************************************
+A-> sending:
+A-> seq:379, ack:265, check:FFFFF5D6
+A-> message: ggggggggggggggggggg
+
+***************************************
+          TOLAYER3: packet being corrupted
+***************************************
+A-> sending:
+A-> seq:380, ack:266, check:FFFFF5C1
+A-> message: hhhhhhhhhhhhhhhhhhh
+
+***************************************
+
+EVENT time: 6371.780762,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:374, ack:260 check:FFFFF63F
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:374,looking for:378
+          TOLAYER3: packet being lost
+***************************************
+B -> sending:
+B -> seq:260, ack:375 B -> check:FFFFFCB5
+B ->  message:ACK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:263, ack:378 check:FFFFFCA4
+B -> message:NAK
+
+***************************************
+
+EVENT time: 6375.641602,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 6379.149414,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:376, ack:262 check:FFFFF615
+B <- message: ddddddddddddddddddd
+
+receive:376,looking for:378
+***************************************
+B -> sending:
+B -> seq:262, ack:377 B -> check:FFFFFCB1
+B ->  message:ACK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:263, ack:378 check:FFFFFCA4
+B -> message:NAK
+
+***************************************
+          TOLAYER3: packet being lost
+
+EVENT time: 6382.724609,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 6388.982422,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:377, ack:263 check:FFFFF600
+B <- message: eeeeeeeeeeeeeeeeeee
+
+receive:377,looking for:378
+          TOLAYER3: packet being corrupted
+***************************************
+B -> sending:
+B -> seq:263, ack:378 B -> check:FFFFFCAF
+B ->  message:ACK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:263, ack:378 check:FFFFFCA4
+B -> message:NAK
+
+***************************************
+
+EVENT time: 6390.517578,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:378, ack:264 check:FFFFF5EB
+B <- message: fffffffffffffffffff
+
+receive:378,looking for:378
+***************************************
+B -> sending:
+B -> seq:264, ack:379 check:FFFFFCAD
+B -> message:ACK
+
+***************************************
+          TOLAYER3: packet being corrupted
+
+EVENT time: 6393.269043,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:379, ack:265 check:FFFFF5D6
+B <- message: ggggggggggggggggggg
+
+receive:379,looking for:379
+***************************************
+B -> sending:
+B -> seq:265, ack:380 check:FFFFFCAB
+B -> message:ACK
+
+***************************************
+
+EVENT time: 6394.145996,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 6400.562500,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:380, ack:266 check:FFFFF5C1
+B <- message: Zhhhhhhhhhhhhhhhhhh
+
+***************************************
+B -> sending:
+B -> seq:265, ack:380 check:FFFFFCA0
+B -> message:NAK
+
+***************************************
+
+EVENT time: 6403.836914,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 6410.896484,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 6420.543945,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 6428.376465,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 7366.442383,  type: 0, timerinterrupt   entity: 0
+***************************************
+A-> sending:
+A-> seq:374, ack:260, check:FFFFF63F
+A-> message: bbbbbbbbbbbbbbbbbbb
+
+***************************************
+***************************************
+A-> sending:
+A-> seq:375, ack:261, check:FFFFF62A
+A-> message: ccccccccccccccccccc
+
+***************************************
+          TOLAYER3: packet being corrupted
+***************************************
+A-> sending:
+A-> seq:376, ack:262, check:FFFFF615
+A-> message: ddddddddddddddddddd
+
+***************************************
+***************************************
+A-> sending:
+A-> seq:377, ack:263, check:FFFFF600
+A-> message: eeeeeeeeeeeeeeeeeee
+
+***************************************
+***************************************
+A-> sending:
+A-> seq:378, ack:264, check:FFFFF5EB
+A-> message: fffffffffffffffffff
+
+***************************************
+***************************************
+A-> sending:
+A-> seq:379, ack:265, check:FFFFF5D6
+A-> message: ggggggggggggggggggg
+
+***************************************
+***************************************
+A-> sending:
+A-> seq:380, ack:266, check:FFFFF5C1
+A-> message: hhhhhhhhhhhhhhhhhhh
+
+***************************************
+
+EVENT time: 7376.187500,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:374, ack:260 check:FFFFF63F
+B <- message: bbbbbbbbbbbbbbbbbbb
+
+receive:374,looking for:380
+***************************************
+B -> sending:
+B -> seq:260, ack:375 B -> check:FFFFFCB5
+B ->  message:ACK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:265, ack:380 check:FFFFFCA0
+B -> message:NAK
+
+***************************************
+          TOLAYER3: packet being lost
+
+EVENT time: 7378.707031,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:375, ack:261 check:FFFFF62A
+B <- message: ccccccccccccccccccc
+
+receive:375,looking for:380
+***************************************
+B -> sending:
+B -> seq:261, ack:376 B -> check:FFFFFCB3
+B ->  message:ACK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:265, ack:380 check:FFFFFCA0
+B -> message:NAK
+
+***************************************
+          TOLAYER3: packet being lost
+
+EVENT time: 7380.570801,  type: 2, fromlayer3  entity: 0
+
+EVENT time: 7383.422363,  type: 2, fromlayer3  entity: 0
+Warning: unable to cancel your timer. It wasn't running.
+
+EVENT time: 7387.169922,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:376, ack:262 check:FFFFF615
+B <- message: Zdddddddddddddddddd
+
+***************************************
+B -> sending:
+B -> seq:265, ack:380 check:FFFFFCA0
+B -> message:NAK
+
+***************************************
+          TOLAYER3: packet being corrupted
+
+EVENT time: 7391.594727,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:377, ack:263 check:FFFFF600
+B <- message: eeeeeeeeeeeeeeeeeee
+
+receive:377,looking for:380
+          TOLAYER3: packet being corrupted
+***************************************
+B -> sending:
+B -> seq:263, ack:378 B -> check:FFFFFCAF
+B ->  message:ACK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:265, ack:380 check:FFFFFCA0
+B -> message:NAK
+
+***************************************
+          TOLAYER3: packet being lost
+
+EVENT time: 7393.856934,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 7396.985352,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 7399.835449,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:378, ack:264 check:FFFFF5EB
+B <- message: fffffffffffffffffff
+
+receive:378,looking for:380
+          TOLAYER3: packet being lost
+***************************************
+B -> sending:
+B -> seq:264, ack:379 B -> check:FFFFFCAD
+B ->  message:ACK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:265, ack:380 check:FFFFFCA0
+B -> message:NAK
+
+***************************************
+
+EVENT time: 7405.870117,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:379, ack:265 check:FFFFF5D6
+B <- message: ggggggggggggggggggg
+
+receive:379,looking for:380
+***************************************
+B -> sending:
+B -> seq:265, ack:380 B -> check:FFFFFCAB
+B ->  message:ACK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:265, ack:380 check:FFFFFCA0
+B -> message:NAK
+
+***************************************
+
+EVENT time: 7406.883789,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 7409.754883,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:380, ack:266 check:FFFFF5C1
+B <- message: hhhhhhhhhhhhhhhhhhh
+
+receive:380,looking for:380
+***************************************
+B -> sending:
+B -> seq:266, ack:381 check:FFFFFCA9
+B -> message:ACK
+
+***************************************
+
+EVENT time: 7410.633301,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 7411.820801,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 7419.136719,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 8142.676758,  type: 1, fromlayer5  entity: 0
+          TOLAYER3: packet being lost
+***************************************
+A-> has sent
+A-> seq: 381,  ack: 267,  checksum: -2644 
+A-> messages: iiiiiiiiiiiiiiiiiii
+***************************************
+
+EVENT time: 10076.319336,  type: 1, fromlayer5  entity: 0
+***************************************
+A-> has sent
+A-> seq: 382,  ack: 268,  checksum: -2665 
+A-> messages: jjjjjjjjjjjjjjjjjjj
+***************************************
+
+EVENT time: 10077.903320,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:382, ack:268 check:FFFFF597
+B <- message: jjjjjjjjjjjjjjjjjjj
+
+receive:382,looking for:381
+          TOLAYER3: packet being corrupted
+***************************************
+B ->  sending:
+B ->  seq:266, ack:381 check:FFFFFCA9
+B ->  message: ACK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:266, ack:381 check:FFFFFCA9
+B -> message:ACK
+
+***************************************
+
+EVENT time: 10085.995117,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 10088.228516,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 11349.657227,  type: 1, fromlayer5  entity: 0
+***************************************
+A-> has sent
+A-> seq: 383,  ack: 269,  checksum: -2686 
+A-> messages: kkkkkkkkkkkkkkkkkkk
+***************************************
+
+EVENT time: 11356.805664,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:383, ack:269 check:FFFFF582
+B <- message: kkkkkkkkkkkkkkkkkkk
+
+receive:383,looking for:381
+***************************************
+B ->  sending:
+B ->  seq:266, ack:381 check:FFFFFCA9
+B ->  message: ACK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:266, ack:381 check:FFFFFCA9
+B -> message:ACK
+
+***************************************
+          TOLAYER3: packet being lost
+
+EVENT time: 11365.715820,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 12669.309570,  type: 1, fromlayer5  entity: 0
+***************************************
+A-> has sent
+A-> seq: 384,  ack: 270,  checksum: -2707 
+A-> messages: lllllllllllllllllll
+***************************************
+
+EVENT time: 12674.060547,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:384, ack:270 check:FFFFF56D
+B <- message: lllllllllllllllllll
+
+receive:384,looking for:381
+***************************************
+B ->  sending:
+B ->  seq:266, ack:381 check:FFFFFCA9
+B ->  message: ACK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:266, ack:381 check:FFFFFCA9
+B -> message:ACK
+
+***************************************
+          TOLAYER3: packet being corrupted
+
+EVENT time: 12678.999023,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 12681.253906,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 13579.680664,  type: 1, fromlayer5  entity: 0
+***************************************
+A-> has sent
+A-> seq: 385,  ack: 271,  checksum: -2728 
+A-> messages: mmmmmmmmmmmmmmmmmmm
+***************************************
+
+EVENT time: 13582.457031,  type: 2, fromlayer3  entity: 1
+B <- receiving:
+B <- seq:385, ack:271 check:FFFFF558
+B <- message: mmmmmmmmmmmmmmmmmmm
+
+receive:385,looking for:381
+          TOLAYER3: packet being corrupted
+***************************************
+B ->  sending:
+B ->  seq:266, ack:381 check:FFFFFCA9
+B ->  message: ACK
+
+***************************************
+***************************************
+B -> sending:
+B -> seq:266, ack:381 check:FFFFFCA9
+B -> message:ACK
+
+***************************************
+
+EVENT time: 13589.332031,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 13594.544922,  type: 2, fromlayer3  entity: 0
+错误的确认号
+
+EVENT time: 13970.396484,  type: 1, fromlayer5  entity: 0
+
+EVENT time: 14953.740234,  type: 1, fromlayer5  entity: 0
+ Simulator terminated at time 14953.740234
+ after sending 15 msgs from layer5
