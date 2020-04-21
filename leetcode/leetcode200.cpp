@@ -27,14 +27,21 @@ public:
                         && used[i][j-1] == false){
                             nums++;
                         }
-                    used[i][j] = true;
-                    if(expand_grid[i-1][j] == '1') used[i-1][j] == true;
-                    if(expand_grid[i+1][j] == '1') used[i+1][j] == true;
-                    if(expand_grid[i][j-1] == '1') used[i][j-1] == true;
-                    if(expand_grid[i][j+1] == '1') used[i][j+1] == true;
+                    setUsed(used, expand_grid, i, j);
                 }
             }
         }
         return nums;
+    }
+
+    void setUsed(vector<vector<bool>> &used, vector<vector<char>> &expand_grid, int i, int j){
+        if(expand_grid[i][j] == '1' && used[i][j] == false) {
+            used[i][j] = true;
+            setUsed(used, expand_grid, i-1, j);
+            setUsed(used, expand_grid, i+1, j);
+            setUsed(used, expand_grid, i, j-1);
+            setUsed(used, expand_grid, i, j+1);
+        } 
+        else return;
     }
 };
