@@ -5,6 +5,7 @@
 # include <numeric>
 # include <map>
 # include <stack>
+# include <queue>
 # include <set>
 
 using namespace std;
@@ -15,6 +16,13 @@ struct ListNode {
     ListNode(int x) : val(x), next(NULL) {}
 };
 
+struct TreeNode {
+     int val;
+     TreeNode *left;
+     TreeNode *right;
+     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+ 
 
 ListNode* initList(vector<int> nums){
     ListNode* head = new ListNode(nums[0]);
