@@ -4,7 +4,6 @@
 int main(){
     int x = -1;
     unsigned u = 2147483648;
-    printf("size: %d, %d\n", sizeof(int), sizeof(unsigned));
-    printf("x = %u = %d\n", x, x);
-    printf("u = %u = %d", u, u);
+    int min = 0b10000000000000000000000000000000;
+    printf("min: %d\n", min-1);
 }
