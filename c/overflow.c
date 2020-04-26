@@ -12,5 +12,5 @@ int sum(int a[], unsigned len){
 int main(){
     printf("错误是因为无符号数错误\n");
     int a[5] = {1,2,3,4,5};
-    printf("%d", sum(a, 0));
+    printf("%u", a);
 }
