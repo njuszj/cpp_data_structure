@@ -1,7 +1,7 @@
 // 螺旋矩阵
 // 写的太乱了!!
 // 看的题解也许设定四个边界会好一点，少一点边界判断
-// .......
+// 确实有点乱，还好最后通过了~
 
 # include "leetcode.h"
 
@@ -30,6 +30,10 @@ public:
                 }
             if(2 * r_layer == rows - 1 && 2 * c_layer == cols - 1)
                 res.push_back(matrix[r_layer][c_layer]);
+            if(2 * r_layer == rows - 1 && 2 * c_layer < cols - 1)
+                res.push_back(matrix[r_layer][cols-c_layer-1]);
+            if(2 * c_layer == cols - 1 && 2 * r_layer < rows - 1)
+                res.push_back(matrix[rows-r_layer-1][c_layer]);
             r_layer ++;
             c_layer ++;
         }
