@@ -25,7 +25,9 @@ struct distance_table
 
 rtinit1() 
 {
-
+  dt1.costs[0][0] = 1;
+  dt1.costs[1][1] = 0;
+  dt1.costs[2][2] = 1;
 }
 
 
@@ -33,7 +35,13 @@ rtupdate1(rcvdpkt)
   struct rtpkt *rcvdpkt;
   
 {
-
+  int i;
+  int source_id = rcvdpkt->sourceid;
+  for(i=0; i<4; i++){
+    // 更新路由表
+    dt1.costs[source_id][i] =  dt1.costs[0][source_id] + rcvdpkt->mincost[i];
+  }
+  printdt1(dt1);
 }
 
 

@@ -64,7 +64,7 @@ struct event {
 struct event *evlist = NULL;   /* the event list */
 
 /* possible events: */
-#define  FROM_LAYER2     2
+#define  FROM_LAYER2     20
 #define  LINK_CHANGE     10
 
 float clocktime = 0.000;
@@ -85,7 +85,7 @@ main()
         if (evlist!=NULL)
            evlist->prev=NULL;
         if (TRACE>1) {
-          printf("MAIN: rcv event, t=%.3f, at %d",
+          printf("MAIN: rcv event, t=%.3f, at %d\n",
                           eventptr->evtime,eventptr->eventity);
           if (eventptr->evtype == FROM_LAYER2 ) {
 	    printf(" src:%2d,",eventptr->rtpktptr->sourceid);
@@ -150,7 +150,7 @@ init()                         /* initialize the simulator */
     printf("It is likely that random number generation on your machine\n" ); 
     printf("is different from what this emulator expects.  Please take\n");
     printf("a look at the routine jimsrand() in the emulator code. Sorry. \n");
-    exit();
+    exit(0);
     }
 
    clocktime=0.0;                /* initialize time to 0.0 */

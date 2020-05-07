@@ -22,6 +22,11 @@ struct distance_table
 void rtinit0() 
 {
   // 初始化节点0中的距离表, 按题目要求为1,2,3的成本分别为1,3,7
+  // 节点0的向量表中[i,j]是节点0通过节点j连接到节点i所需的成本
+  int i, j;
+  for(int i=0; i<4; i++)
+    for(int j=0; j<4; j++)
+      dt0.costs[i][j] = 999;
   dt0.costs[0][0] = 0;
   dt0.costs[1][1] = 1;
   dt0.costs[2][2] = 3;
@@ -32,7 +37,13 @@ void rtinit0()
 void rtupdate0(rcvdpkt)
   struct rtpkt *rcvdpkt;
 {
-  
+  int i;
+  int source_id = rcvdpkt->sourceid;
+  for(i=0; i<4; i++){
+    // 更新路由表
+    dt0.costs[source_id][i] =  dt0.costs[0][source_id] + rcvdpkt->mincost[i];
+  }
+  printdt0(dt0);
 }
 
 
