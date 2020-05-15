@@ -108,5 +108,33 @@ linkhandler0(linkid, newcost)
 /* constant definition in prog3.c from 0 to 1 */
 	
 {
+    int i,j;   
+    int cost = 999;   
+    int changed = 0;   
+    dt0.costs[linkid][0] = newcost;   
+    for(i=0; i<4; i++){   
+        dt0.costs[i][linkid] = dt0.costs[i][linkid] + newcost - connectcosts0[linkid];   
+    }   
+    connectcosts0[linkid] = newcost;   
+   
+    for(i=0; i<4; i++){   
+        cost = 999;   
+        for(j=0; j<4; j++){   
+            if(cost > dt0.costs[i][j]){   
+                cost = dt0.costs[i][j];   
+                   
+            }   
+        }   
+        minicosts0[i] = cost;   
+    }
+    struct rtpkt* update_ptr = (struct rtpkt*)malloc(1*sizeof(struct rtpkt));
+    creatertpkt(update_ptr, 0, 1, minicosts0);   
+    tolayer2(*update_ptr);   
+    creatertpkt(update_ptr, 0, 2, minicosts0);
+    tolayer2(*update_ptr);   
+    creatertpkt(update_ptr, 0, 3, minicosts0);   
+    tolayer2(*update_ptr);   
+   
+    free(update_ptr);
 }
 

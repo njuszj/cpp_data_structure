@@ -1,0 +1,528 @@
+Enter TRACE:    TOLAYER2: source: 0, dest: 1
+              costs:0  1  3  7  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 0.000000
+            INSERTEVENT: future time will be 1.870574
+    TOLAYER2: source: 0, dest: 2
+              costs:0  1  3  7  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 0.000000
+            INSERTEVENT: future time will be 1.641910
+    TOLAYER2: source: 0, dest: 3
+              costs:0  1  3  7  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 0.000000
+            INSERTEVENT: future time will be 0.946640
+......init node0......
+                via     
+   D0 |    1     2    3 
+  ----|-----------------
+     1|    1   999   999
+dest 2|  999     3   999
+     3|  999   999     7
+    TOLAYER2: source: 1, dest: 0
+              costs:1  0  1  999  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 0.000000
+            INSERTEVENT: future time will be 0.992243
+    TOLAYER2: source: 1, dest: 2
+              costs:1  0  1  999  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 0.000000
+            INSERTEVENT: future time will be 2.165707
+......init node1......
+             via   
+   D1 |    0     2 
+  ----|-----------
+     0|    1   999
+dest 2|  999     1
+     3|  999   999
+    TOLAYER2: source: 1, dest: 0
+              costs:3  1  0  2  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 0.000000
+            INSERTEVENT: future time will be 2.406722
+WARNING: source and destination id's the same, ignoring packet!
+WARNING: source and destination not connected, ignoring packet!
+......init node2......
+                via     
+   D2 |    0     1    3 
+  ----|-----------------
+     0|    3   999   999
+dest 1|  999     1   999
+     3|  999   999     2
+    TOLAYER2: source: 3, dest: 0
+              costs:7  999  2  0  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 0.000000
+            INSERTEVENT: future time will be 3.347080
+    TOLAYER2: source: 3, dest: 2
+              costs:7  999  2  0  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 0.000000
+            INSERTEVENT: future time will be 2.428290
+......init node3......
+             via     
+   D3 |    0     2 
+  ----|-----------
+     0|    7   999
+dest 1|  999   999
+     2|  999     2
+            INSERTEVENT: time is 0.000000
+            INSERTEVENT: future time will be 10000.000000
+            INSERTEVENT: time is 0.000000
+            INSERTEVENT: future time will be 20000.000000
+MAIN: rcv event, t=0.947, at 3
+ src: 0, dest: 3, contents:   0   1   3   7
+    TOLAYER2: source: 1, dest: 0
+              costs:7  8  2  0  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 0.946640
+            INSERTEVENT: future time will be 5.044000
+    TOLAYER2: source: 1, dest: 2
+              costs:7  8  2  0  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 0.946640
+            INSERTEVENT: future time will be 2.683851
+......update node3......
+             via     
+   D3 |    0     2 
+  ----|-----------
+     0|    7   999
+dest 1|    8   999
+     2|   10     2
+MAIN: rcv event, t=0.992, at 0
+ src: 1, dest: 0, contents:   1   0   1 999
+    TOLAYER2: source: 0, dest: 1
+              costs:0  1  2  7  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 0.992243
+            INSERTEVENT: future time will be 2.097351
+    TOLAYER2: source: 0, dest: 2
+              costs:0  1  2  7  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 0.992243
+            INSERTEVENT: future time will be 3.555246
+    TOLAYER2: source: 0, dest: 3
+              costs:0  1  2  7  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 0.992243
+            INSERTEVENT: future time will be 2.824363
+......update node0......
+                via     
+   D0 |    1     2    3 
+  ----|-----------------
+     1|    1   999   999
+dest 2|    2     3   999
+     3|  1000   999     7
+MAIN: rcv event, t=1.642, at 2
+ src: 0, dest: 2, contents:   0   1   3   7
+......update node2......
+                via     
+   D2 |    0     1    3 
+  ----|-----------------
+     0|    3   999   999
+dest 1|    4     1   999
+     3|   10   999     2
+MAIN: rcv event, t=1.871, at 1
+ src: 0, dest: 1, contents:   0   1   3   7
+    TOLAYER2: source: 1, dest: 0
+              costs:1  0  1  8  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 1.870574
+            INSERTEVENT: future time will be 5.814503
+    TOLAYER2: source: 1, dest: 2
+              costs:1  0  1  8  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 1.870574
+            INSERTEVENT: future time will be 3.621739
+......update node1......
+             via   
+   D1 |    0     2 
+  ----|-----------
+     0|    1   999
+dest 2|    4     1
+     3|    8   999
+MAIN: rcv event, t=2.097, at 1
+ src: 0, dest: 1, contents:   0   1   2   7
+......update node1......
+             via   
+   D1 |    0     2 
+  ----|-----------
+     0|    1   999
+dest 2|    3     1
+     3|    8   999
+MAIN: rcv event, t=2.166, at 2
+ src: 1, dest: 2, contents:   1   0   1 999
+......update node2......
+                via     
+   D2 |    0     1    3 
+  ----|-----------------
+     0|    3     5   999
+dest 1|    4     4   999
+     3|   10   1003     2
+MAIN: rcv event, t=2.407, at 0
+ src: 1, dest: 0, contents:   3   1   0   2
+    TOLAYER2: source: 0, dest: 1
+              costs:0  1  1  3  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 2.406722
+            INSERTEVENT: future time will be 3.289051
+    TOLAYER2: source: 0, dest: 2
+              costs:0  1  1  3  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 2.406722
+            INSERTEVENT: future time will be 3.728054
+    TOLAYER2: source: 0, dest: 3
+              costs:0  1  1  3  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 2.406722
+            INSERTEVENT: future time will be 3.682898
+......update node0......
+                via     
+   D0 |    1     2    3 
+  ----|-----------------
+     1|    2   999   999
+dest 2|    1     3   999
+     3|    3   999     7
+MAIN: rcv event, t=2.428, at 2
+ src: 3, dest: 2, contents:   7 999   2   0
+......update node2......
+                via     
+   D2 |    0     1    3 
+  ----|-----------------
+     0|    3     5    17
+dest 1|    4     4   1009
+     3|   10   1003    10
+MAIN: rcv event, t=2.684, at 2
+ src: 1, dest: 2, contents:   7   8   2   0
+......update node2......
+                via     
+   D2 |    0     1    3 
+  ----|-----------------
+     0|    3    11    17
+dest 1|    4    12   1009
+     3|   10     4    10
+MAIN: rcv event, t=2.824, at 3
+ src: 0, dest: 3, contents:   0   1   2   7
+......update node3......
+             via     
+   D3 |    0     2 
+  ----|-----------
+     0|    7   999
+dest 1|    8   999
+     2|    9     2
+MAIN: rcv event, t=3.289, at 1
+ src: 0, dest: 1, contents:   0   1   1   3
+    TOLAYER2: source: 1, dest: 0
+              costs:1  0  1  4  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 3.289051
+            INSERTEVENT: future time will be 7.687487
+    TOLAYER2: source: 1, dest: 2
+              costs:1  0  1  4  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 3.289051
+            INSERTEVENT: future time will be 4.677439
+......update node1......
+             via   
+   D1 |    0     2 
+  ----|-----------
+     0|    1   999
+dest 2|    2     1
+     3|    4   999
+MAIN: rcv event, t=3.347, at 0
+ src: 3, dest: 0, contents:   7 999   2   0
+......update node0......
+                via     
+   D0 |    1     2    3 
+  ----|-----------------
+     1|    2   999   1006
+dest 2|    1     3     9
+     3|    3   999     7
+MAIN: rcv event, t=3.555, at 2
+ src: 0, dest: 2, contents:   0   1   2   7
+......update node2......
+                via     
+   D2 |    0     1    3 
+  ----|-----------------
+     0|    3    11    17
+dest 1|    4    12   1009
+     3|   10     4    10
+MAIN: rcv event, t=3.622, at 2
+ src: 1, dest: 2, contents:   1   0   1   8
+......update node2......
+                via     
+   D2 |    0     1    3 
+  ----|-----------------
+     0|    3     5    17
+dest 1|    4     4   1009
+     3|   10    12    10
+MAIN: rcv event, t=3.683, at 3
+ src: 0, dest: 3, contents:   0   1   1   3
+......update node3......
+             via     
+   D3 |    0     2 
+  ----|-----------
+     0|    7   999
+dest 1|    8   999
+     2|    8     2
+MAIN: rcv event, t=3.728, at 2
+ src: 0, dest: 2, contents:   0   1   1   3
+......update node2......
+                via     
+   D2 |    0     1    3 
+  ----|-----------------
+     0|    3     5    17
+dest 1|    4     4   1009
+     3|    6    12    10
+MAIN: rcv event, t=4.677, at 2
+ src: 1, dest: 2, contents:   1   0   1   4
+......update node2......
+                via     
+   D2 |    0     1    3 
+  ----|-----------------
+     0|    3     5    17
+dest 1|    4     4   1009
+     3|    6     8    10
+MAIN: rcv event, t=5.044, at 0
+ src: 1, dest: 0, contents:   7   8   2   0
+    TOLAYER2: source: 0, dest: 1
+              costs:0  1  1  1  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 5.044000
+            INSERTEVENT: future time will be 6.221425
+    TOLAYER2: source: 0, dest: 2
+              costs:0  1  1  1  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 5.044000
+            INSERTEVENT: future time will be 6.480203
+    TOLAYER2: source: 0, dest: 3
+              costs:0  1  1  1  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 5.044000
+            INSERTEVENT: future time will be 5.755698
+......update node0......
+                via     
+   D0 |    1     2    3 
+  ----|-----------------
+     1|    9   999   1006
+dest 2|    3     3     9
+     3|    1   999     7
+MAIN: rcv event, t=5.756, at 3
+ src: 0, dest: 3, contents:   0   1   1   1
+......update node3......
+             via     
+   D3 |    0     2 
+  ----|-----------
+     0|    7   999
+dest 1|    8   999
+     2|    8     2
+MAIN: rcv event, t=5.815, at 0
+ src: 1, dest: 0, contents:   1   0   1   8
+......update node0......
+                via     
+   D0 |    1     2    3 
+  ----|-----------------
+     1|    1   999   1006
+dest 2|    2     3     9
+     3|    9   999     7
+MAIN: rcv event, t=6.221, at 1
+ src: 0, dest: 1, contents:   0   1   1   1
+    TOLAYER2: source: 1, dest: 0
+              costs:1  0  1  2  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 6.221425
+            INSERTEVENT: future time will be 8.805186
+    TOLAYER2: source: 1, dest: 2
+              costs:1  0  1  2  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 6.221425
+            INSERTEVENT: future time will be 8.262129
+......update node1......
+             via   
+   D1 |    0     2 
+  ----|-----------
+     0|    1   999
+dest 2|    2     1
+     3|    2   999
+MAIN: rcv event, t=6.480, at 2
+ src: 0, dest: 2, contents:   0   1   1   1
+......update node2......
+                via     
+   D2 |    0     1    3 
+  ----|-----------------
+     0|    3     5    17
+dest 1|    4     4   1009
+     3|    4     8    10
+MAIN: rcv event, t=7.687, at 0
+ src: 1, dest: 0, contents:   1   0   1   4
+......update node0......
+                via     
+   D0 |    1     2    3 
+  ----|-----------------
+     1|    1   999   1006
+dest 2|    2     3     9
+     3|    5   999     7
+MAIN: rcv event, t=8.262, at 2
+ src: 1, dest: 2, contents:   1   0   1   2
+......update node2......
+                via     
+   D2 |    0     1    3 
+  ----|-----------------
+     0|    3     5    17
+dest 1|    4     4   1009
+     3|    4     6    10
+MAIN: rcv event, t=8.805, at 0
+ src: 1, dest: 0, contents:   1   0   1   2
+......update node0......
+                via     
+   D0 |    1     2    3 
+  ----|-----------------
+     1|    1   999   1006
+dest 2|    2     3     9
+     3|    3   999     7
+MAIN: rcv event, t=10000.000, at -1
+    TOLAYER2: source: 0, dest: 1
+              costs:0  20  3  7  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 10000.000000
+            INSERTEVENT: future time will be 10000.384766
+    TOLAYER2: source: 0, dest: 2
+              costs:0  20  3  7  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 10000.000000
+            INSERTEVENT: future time will be 10001.478516
+    TOLAYER2: source: 0, dest: 3
+              costs:0  20  3  7  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 10000.000000
+            INSERTEVENT: future time will be 10000.680664
+    TOLAYER2: source: 1, dest: 0
+              costs:20  0  1  21  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 10000.000000
+            INSERTEVENT: future time will be 10000.303711
+    TOLAYER2: source: 1, dest: 2
+              costs:20  0  1  21  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 10000.000000
+            INSERTEVENT: future time will be 10002.014648
+MAIN: rcv event, t=10000.304, at 0
+ src: 1, dest: 0, contents:  20   0   1  21
+......update node0......
+                via     
+   D0 |    1     2    3 
+  ----|-----------------
+     1|   20   999   1006
+dest 2|   21     3     9
+     3|   41   999     7
+MAIN: rcv event, t=10000.385, at 1
+ src: 0, dest: 1, contents:   0  20   3   7
+......update node1......
+             via   
+   D1 |    0     2 
+  ----|-----------
+     0|   20   999
+dest 2|   23     1
+     3|   27   999
+MAIN: rcv event, t=10000.681, at 3
+ src: 0, dest: 3, contents:   0  20   3   7
+......update node3......
+             via     
+   D3 |    0     2 
+  ----|-----------
+     0|    7   999
+dest 1|   27   999
+     2|   10     2
+MAIN: rcv event, t=10001.479, at 2
+ src: 0, dest: 2, contents:   0  20   3   7
+......update node2......
+                via     
+   D2 |    0     1    3 
+  ----|-----------------
+     0|    3     5    17
+dest 1|   23     4   1009
+     3|   10     6    10
+MAIN: rcv event, t=10002.015, at 2
+ src: 1, dest: 2, contents:  20   0   1  21
+......update node2......
+                via     
+   D2 |    0     1    3 
+  ----|-----------------
+     0|    3    43    17
+dest 1|   23    23   1009
+     3|   10    44    10
+MAIN: rcv event, t=20000.000, at 0
+    TOLAYER2: source: 0, dest: 1
+              costs:0  1  2  7  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 20000.000000
+            INSERTEVENT: future time will be 20001.017578
+    TOLAYER2: source: 0, dest: 2
+              costs:0  1  2  7  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 20000.000000
+            INSERTEVENT: future time will be 20000.173828
+    TOLAYER2: source: 0, dest: 3
+              costs:0  1  2  7  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 20000.000000
+            INSERTEVENT: future time will be 20000.177734
+    TOLAYER2: source: 1, dest: 0
+              costs:1  0  1  8  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 20000.000000
+            INSERTEVENT: future time will be 20001.962891
+    TOLAYER2: source: 1, dest: 2
+              costs:1  0  1  8  
+    TOLAYER2: scheduling arrival on other side
+            INSERTEVENT: time is 20000.000000
+            INSERTEVENT: future time will be 20001.339844
+MAIN: rcv event, t=20000.174, at 2
+ src: 0, dest: 2, contents:   0   1   2   7
+......update node2......
+                via     
+   D2 |    0     1    3 
+  ----|-----------------
+     0|    3    43    17
+dest 1|    4    23   1009
+     3|   10    44    10
+MAIN: rcv event, t=20000.178, at 3
+ src: 0, dest: 3, contents:   0   1   2   7
+......update node3......
+             via     
+   D3 |    0     2 
+  ----|-----------
+     0|    7   999
+dest 1|    8   999
+     2|    9     2
+MAIN: rcv event, t=20001.018, at 1
+ src: 0, dest: 1, contents:   0   1   2   7
+......update node1......
+             via   
+   D1 |    0     2 
+  ----|-----------
+     0|    1   999
+dest 2|    3     1
+     3|    8   999
+MAIN: rcv event, t=20001.340, at 2
+ src: 1, dest: 2, contents:   1   0   1   8
+......update node2......
+                via     
+   D2 |    0     1    3 
+  ----|-----------------
+     0|    3     5    17
+dest 1|    4     4   1009
+     3|   10    12    10
+MAIN: rcv event, t=20001.963, at 0
+ src: 1, dest: 0, contents:   1   0   1   8
+......update node0......
+                via     
+   D0 |    1     2    3 
+  ----|-----------------
+     1|    1   999   1006
+dest 2|    2     3     9
+     3|    9   999     7
+
+Simulator terminated at t=20001.962891, no packets in medium

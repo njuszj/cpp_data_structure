@@ -101,5 +101,3 @@ printdt3(dtptr)
 
 
 
-
-
