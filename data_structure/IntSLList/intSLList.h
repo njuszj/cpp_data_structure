@@ -1,6 +1,8 @@
 #ifndef INT_LINKED_LIST
 #define INT_LINKED_LIST
 
+// 单向链表
+
 class IntSLLNode{
     //链表节点结构
 public:
